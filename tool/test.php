@@ -1,0 +1,8 @@
+<?php 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+var_dump( strpos('BGD - K2.xls TH_Phiếu giao nhiệm vụ tháng 06/2019 của PGĐ Phan Thanh Trung với TT VTBR TH_Đánh giá nhiệm vụ tháng 05/2019 của PGĐ Phan Thanh Trung với TT VTBR TH_Đánh giá kết quả thực hiện nhiệm vụ trọng tâm tháng 5/2019 của Trung tâm Dịch vụ Sau bán hàng TH_Phiếu giao nhiệm vụ tháng 06/2019 của Trung tâm Dịch vụ Sau bán hàng VHT_Tài liệu mô tả hệ thống S-Tracking và Tài liệu hướng dẫn vận hành khai thác hệ thống S-Tracking TH_Phiếu giao nhiệm vụ tháng 06/2019 của PGĐ Phan Thanh Trung với P.QLSX K2_NCTD_Ký kết NDA với đối tác Broadcom K2_Tờ trình xin kinh phí đăng tin tuyển dụng trên trang ITviec K2_Tờ trình về việc đề xuất sử dụng email nội bộ và Gmail của CBCNV TH_Phiếu giao nhiệm vụ tháng 06/2019 của PGĐ Phan Thanh Trung với P.TH TH_Phiếu giao nhiệm vụ Quý II/2019 của PGĐ Phan Thanh Trung với P.TH DON_XIN_NGHI_PHEP_Lê Trường Giang 0K2_SMC_Báo cáo về việc đánh giá chất lượng bộ vỏ cơ khí vật liệu SUS 316L đánh bóng TH_Phiếu giao nhiệm vụ tháng 06/2019 của PGĐ Phan Thanh Trung với P.TH ĐBCL_K2_Báo cáo công tác tiếp nhận và xử lý lỗi các hệ thống đã triển khai của khối 2 K2_DVSBH_Huong dan tich hop eNodeB SMC_Báo cáo rút kinh nghiệm trong quá trình SX STracking K2_SC_Bao cao danh gia chat luong bo vo kim loai vat lieu SUS 316L danh bong_VIPPHONE K2_SC_Công văn phản hồi Thông báo số 190/GSĐK-TT1 của Trung tâm Kiểm định và Chứng nhận 1 -Cục Viễn thông VHT_Báo giá thiết bị S-Tracking vệ tinh','DON_XIN_NGHI'));
+    
+?>
