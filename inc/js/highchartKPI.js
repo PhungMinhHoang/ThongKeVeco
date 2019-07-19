@@ -3,46 +3,76 @@ function getDate(date) {
     return date.getTime();
 }
 
-
-function dataDuAn(myObj,idDuAn){
+function dataKPI(myObj){
     let data = []
-    let tenDuAn
-    for (const point of myObj) {
-        if (point.du_an_id == idDuAn) {
-            tenDuAn = point.ten
-            // console.log(point.thoigion+typeof(point.thoigion))
-            data.push([getDate(point.thoigian),Number(point.diem)])
+    let names = Object.keys(myObj)
+    for (const name of names) {
+        let dataPoint = []
+        for (const point of myObj[name]) {
+                dataPoint.push([getDate(point.thoigian),Number(point.diem)])
         }
-    }
-    // console.log("dataDuAn")
-    // console.log({name: tenDuAn,data:data})
-    return {name: tenDuAn,data:data}
-}
-
-function dataKPI(myObj,du_an){
-    data = []
-    for (const id of du_an) {
-        data.push(dataDuAn(myObj,id))
+        data.push({name:name,data:dataPoint})
     }
     return data
 }
 
-function renderChartKPI(myObj,du_an,title){
-    let seri;
-    if(du_an==null){
-        let data = []
-        
-        for (const thoigian in myObj) {
-            data.push([getDate(thoigian),Number(myObj[thoigian])])
-        }
-        seri = [{
-            name: 'TCT',
-            data: data
-        }]
-    }
-    else seri = dataKPI(myObj,du_an)
+function renderChartKPI(myObj){
+    Highcharts.chart( {
+        chart: {
+            renderTo: 'chart_KPI_quytrinh',
+            style: {
+                fontFamily: 'Arial'
+            },
+            zoomType: 'x',
+            //giu shift de keo
+            panning: true,
+            panKey: 'shift'
+        },
+        title: {
+            useHTML:true,
+            text: 'KPI Tuân thủ quy trình: '+$('#select_quy_trinh option:selected').text()
+        },
+        xAxis: {
+            type: 'datetime',
+            labels: {
+                formatter: function() {
+                  return Highcharts.dateFormat('%m-%Y',this.value);
+                }
+            },
+        },
+        yAxis: {
+            title: {
+                text: '% KPI',
+            },
+            allowDecimals: false,
+            min: 0,
+            // tickInterval: 10,
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        legend: {
+            
+        },
+        series: dataKPI(myObj),
+        credits : false
+    })
+}
 
-    title = (title === undefined) ? 'KPI Tuân thủ quy trình: '+$('#select_quy_trinh option:selected').text() : title;
+function renderChartKPI_TCT(myObj,title){
+    let seri,data = [];
+    for (const thoigian in myObj) {
+        data.push([getDate(thoigian),Number(myObj[thoigian])])
+    }
+    seri = [{
+        name: 'TCT',
+        data: data
+    }]
     
     Highcharts.chart( {
         chart: {

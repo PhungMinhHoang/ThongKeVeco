@@ -83,7 +83,7 @@
         //Lấy trung bình tất cả
         $.post( "./json/jsonQT.php", function(res) {
             let myObj = JSON.parse(res);
-            renderChartKPI(myObj,null,'<a href="quytrinh.php">KPI tuân thủ quy trình Tổng công ty </a>')
+            renderChartKPI_TCT(myObj,'<a href="quytrinh.php">KPI tuân thủ quy trình Tổng công ty </a>')
         });
 
         $.get( "./json/jsonVoffice.php", function(res) {

@@ -54,6 +54,34 @@ function listDeTai($db){
     }
     echo $option;
 }
+function average($db){
+
+    $query="SELECT id AS du_an_id FROM du_an";
+    $statement = $db->prepare($query);
+    $statement->execute();
+    /* Group values by the first column */
+    $danh_sach_du_an = $statement->fetchAll(PDO::FETCH_ASSOC);
+    
+    
+    foreach ($danh_sach_du_an as $k => $du_an) {
+        $du_an_id = $du_an['du_an_id'];
+        $query="SELECT thoigian , diem FROM kpi_quytrinh WHERE quy_trinh_id <> 7 AND du_an_id = $du_an_id ORDER BY thoigian";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        /* Group values by the first column */
+        $kpi = $statement->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_GROUP);
+
+        foreach ($kpi as $thoigian => $danh_sach_diem) {
+            //Chi lay trong nam hien tai
+            $average = array_sum($danh_sach_diem)/count($danh_sach_diem);
+            $tb = round($average);
+            $query="UPDATE `kpi_quytrinh` SET `diem` = $tb WHERE quy_trinh_id = 7 AND du_an_id = $du_an_id AND thoigian = '$thoigian'";
+            $statement = $db->prepare($query);
+            $statement->execute();
+        }
+    }
+    $statement->closeCursor();
+}
 
 
 if(isset($_POST['submit'])){
@@ -177,6 +205,11 @@ if(isset($_POST['submitKpiQuyTrinh'])){
     echo "<script>alert('Chấm thành công')</script>";
     header("Refresh:0");
 }
+if(isset($_POST['submitTrungBinh'])){
+    average($db);
+    echo "<script>alert('Đã cập nhật quy trình trung bình cho tất cả dự án')</script>";
+    header("Refresh:0");
+}
 
 ?>
 
@@ -226,11 +259,18 @@ if(isset($_POST['submitKpiQuyTrinh'])){
                     <option value = "">Chọn đề tài/dự án</option>
                     <?php listDeTai($db); ?>
                 </select>
-        Điểm: <input type="text" name="diem" required>
-        Thời gian: <input type="date" name="thoigian">
-
-        <input type='submit' name='submitKpiQuyTrinh' value='Thêm' />
+        Điểm: <input type="text" name="diem" required value = 0>
+        Thời gian: <input type="date" name="thoigian" id="myDate" value=<?php echo date('Y-m-d') ?>>
+        
+        <input type='submit' name='submitKpiQuyTrinh'  value = 'Thêm' />
     </form>
+    <!-- Update điểm trung bình quy trình -->
+    <!-- Thêm đề tài -->
+    <form method='post' action=''>
+        <p class="help-block"><b>Cập nhật điểm trung bình quy trình</b><b style="color:red">(Thực hiện sau khi đã chấm điểm cho quy trình trung bình)</b></p>
+        <input type='submit' name='submitTrungBinh' value='Cập nhật' />
+    </form>
+    <script src="../inc/jquery.js"></script>
 </body>
 
 </html>

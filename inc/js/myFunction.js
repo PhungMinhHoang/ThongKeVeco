@@ -1,5 +1,4 @@
 function dataKhoi(myObj,khoi,type){
-    print_r(myObj);
     let sum = myObj[khoi].filter((donvi)=>{
         return donvi.ten_tuy_chon == type 
     }).reduce((acc,cur)=>{

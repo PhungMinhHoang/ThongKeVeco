@@ -5,18 +5,53 @@ error_reporting(E_ALL);
 
 require_once('database.php');
 
-$query="SELECT id,ten FROM du_an";
-$statement = $db->prepare($query);
-$statement->execute();
-$list_du_an = $statement->fetchAll();
-$statement->closeCursor();
+function listDonVi($db){
+    $query="SELECT id,ten FROM don_vi";
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $listDonVi = $statement->fetchall(PDO::FETCH_ASSOC);
+    $statement->closeCursor();
+    $option = "";
+    foreach ($listDonVi as $don_vi) {
+        $id = $don_vi['id'];
+        $ten = $don_vi['ten'];
+        $option .= "<option value=$id>$ten</option>";
+    }
+    return $option;
+}
+function listQuyTrinh($db){
+    $query="SELECT id,ten FROM quy_trinh";
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $listQuyTrinh = $statement->fetchall(PDO::FETCH_ASSOC);
+    $statement->closeCursor();
+    $option = "";
+    foreach ($listQuyTrinh as $quy_trinh) {
+        $id = $quy_trinh['id'];
+        $ten = $quy_trinh['ten'];
+        $option .= "<option value=$id>$ten</option>";
+    }
+    return $option;
+}
+function listDeTai($db){
+    $query="SELECT id,ten FROM du_an";
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $listDeTai = $statement->fetchall(PDO::FETCH_ASSOC);
+    $statement->closeCursor();
+    $option = "";
+    foreach ($listDeTai as $de_tai) {
+        $id = $de_tai['id'];
+        $ten = $de_tai['ten'];
+        $option .= "<option value=$id>$ten</option>";
+    }
+    return $option;
+}
+$listDeTai = listDeTai($db);
+$listDonVi = listDonVi($db);
 
-$query="SELECT id,ten FROM quy_trinh";
-$statement = $db->prepare($query);
-$statement->execute();
-$list_quy_trinh = $statement->fetchAll();
-$statement->closeCursor();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,6 +70,14 @@ $statement->closeCursor();
         div {margin: 5px auto}
         .ms-container { width: 100%;}
     </style>
+    <script src="./inc/jquery.js"></script>
+
+    <!-- quicksearch -->
+    <script src="inc/js/quicksearch.js"></script>
+    <!-- multiSelect -->
+    <script src="inc/js/jquery.multi-select.js"></script>
+    <script src="inc/js/multi-select-config.js"></script>
+    
 </head>
 
 <body>
@@ -45,26 +88,46 @@ $statement->closeCursor();
 
     <div class='container'>
 
-        <div class = "row">
-            <div id='filter'>
+        <div id='filter'>
+            <div class = "row">
+                <select name="kieu_xem" id='select_kieu_xem'>
+                    <!-- <option value="">Chọn kiểu xem</option> -->
+                    <option value='de_tai'>Đề tài/Dự án</option>
+                    <option value='don_vi'>Đơn vị</option>
+                </select>
+            </div>
+            <div class = "row">
                 <select name="quy_trinh" id='select_quy_trinh'>
                     <!-- <option value="">Chọn quy trình áp dụng</option> -->
                     <?php
-                        foreach ($list_quy_trinh as $key => $quy_trinh) {
-                            $id = $quy_trinh['id'];
-                            $ten = $quy_trinh['ten'];
-                            echo "<option value=$id>$ten</option>";
-                        }
+                        echo listQuyTrinh($db);
                     ?>
                 </select>
+            </div>
+            <div class = "row">
                 <select id='select_multi' multiple='multiple' class='searchable'>
-                    <?php 
-
-                        foreach ($list_du_an as $key => $du_an) {
-                            $id = $du_an['id'];
-                            $ten = $du_an['ten'];
-                            echo "<option value=$id>$ten</option>";
-                        }
+                    <?php
+                        // Bien list chua danh sach duoc chon tu multi select
+                        echo 
+                        "<script>
+                            $('#select_multi').html('$listDeTai')
+                            var list = []
+                            $('#select_kieu_xem').change(function(){
+                                list= []
+                                let kieu_xem = $(this).val()
+                                if(kieu_xem == 'de_tai'){
+                                    $('#select_multi').html('$listDeTai')
+                                    $('.searchable').multiSelect('refresh')
+                                    $('#select_quy_trinh').attr('disabled',false)
+                                }
+                                else {
+                                    $('#select_multi').html('$listDonVi')
+                                    $('.searchable').multiSelect('refresh')
+                                    $('#select_quy_trinh').val(7)
+                                    $('#select_quy_trinh').attr('disabled',true)
+                                }
+                            })
+                        </script>"; 
                     ?>
                 </select>
                 <div style="width: fit-content; margin: 0 auto;"><button id='filter_button'>Xác nhận</button></div>
@@ -81,7 +144,7 @@ $statement->closeCursor();
 
     </div>
 
-    <script src="./inc/jquery.js"></script>
+
     <script src="./inc/bootstrap.js"></script>
     <!-- highchart -->
     <script src="inc/Highcharts-7.1.2/code/highcharts.src.js"></script>
@@ -91,11 +154,6 @@ $statement->closeCursor();
     <script src="inc/Highcharts-7.1.2/code/modules/drilldown.js"></script>
 
     <script src="inc/js/highchartKPI.js"></script>
-    <!-- quicksearch -->
-    <script src="inc/js/quicksearch.js"></script>
-    <!-- multiSelect -->
-    <script src="inc/js/jquery.multi-select.js"></script>
-    <script src="inc/js/multi-select-config.js"></script>
     
 </body>
 
