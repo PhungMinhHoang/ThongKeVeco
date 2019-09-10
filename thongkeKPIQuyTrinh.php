@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>VHT Report</title>
+    <title>KPI Tuân thủ quy trình</title>
     <!-- bootsrap -->
     <link rel="stylesheet" href="./inc/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="./inc/bootstrap/bootstrap-grid.min.css"> 
@@ -19,7 +19,7 @@
 <body >
     <header>
         <img src="./inc/img/logo.png" width="90px" height="90px">
-        <h1>Hệ thống Thống kê báo cáo VHT</h1>
+        <h1>kết quả đánh giá tuân thủ quy trình của các đề tài/dự án</h1>
     </header>
     <div class='container-fluid'>
 
@@ -32,7 +32,7 @@
 
             <div class="col-md-6 ">
                 <div class="content">
-                    <div id="chart_KPI_quytrinh" class="ct-chart"></div>
+                    <div id="chart_2" class="ct-chart"></div>
                 </div>
             </div>
         </div>
@@ -40,13 +40,13 @@
         <div class="row">
             <div class="col-md-6 ">
                 <div class="content">
-                    <div id="chart_Voffice" class="ct-chart"></div>
+                    <div id="chart_3" class="ct-chart"></div>
                 </div>
             </div>
         
             <div class="col-md-6 ">
                 <div class="content">
-                    <div id="chart_Veco" class="ct-chart"></div>
+                    <div id="chart_4" class="ct-chart"></div>
                 </div>
             </div>
         </div>
@@ -66,37 +66,22 @@
     <script src="./inc/Highcharts-7.1.2/code/modules/drilldown.js"></script>
 
     <!-- my js -->
-    <script src="inc/js/myFunction.js"></script>
-
-    <script src="inc/js/highchart.js"></script>
-    <script src="inc/js/highchartKPI.js"></script>
-    <script src="inc/js/highchartVoffice.js"></script>
-    <script src="inc/js/highchartVeco.js"></script>
+    <script src="inc/js/highchartKPIDemo.js"></script>
     
     <script>
-        
-        $.get( "./json/json.php", function(res) {
-            let myObj = JSON.parse(res);
-            renderChart(myObj,'chart_1',tuy_chon_1, '<a href="thongkeCongViec.php">Tổng quan công việc trên Veco</a>');
-        });
+        let dataColumn1 = [[83,77,91,100],[84,71,100,100]],
+            dataColumn2 = [[55,60,30,100],[76,90,100,0]],
+            dataColumn3 = [[53,54,64,0],[33,20,71,0]],
+            dataColumn4 = [[3,4,0,0],[19,20,0,50]];
+        let dataLine1 = [80,80,80],
+            dataLine2 = [100,100,100],
+            dataLine3 = [70,70,70],
+            dataLine4 = [3,3,3];
+        renderChart('chart_1',dataColumn1,dataLine1, '<a href="quytrinh.php">TỶ LỆ CÁC ĐỀ TÀI/DỰ ÁN ĐƯỢC ĐÁNH GIÁ</a>');
+        renderChart('chart_2',dataColumn2,dataLine2, '<a href="quytrinh.php">TỶ LỆ CÁC ĐỀ TÀI/DỰ ÁN ĐƯỢC AUDIT</a>');
+        renderChart('chart_3',dataColumn3,dataLine3, '<a href="quytrinh.php">TỶ LỆ CÁC ĐỀ TÀI/DỰ ÁN ĐẠT MỨC ĐỘ TUÂN THỦ QUY TRÌNH YÊU CẦU</a>');
+        renderChart('chart_4',dataColumn4,dataLine4, '<a href="quytrinh.php">TỶ LỆ CÁC ĐỀ TÀI/DỰ ÁN TUÂN THỦ QUY TRÌNH Ở MỨC THẤP</a>');
 
-        //Lấy trung bình tất cả
-        $.post( "./json/jsonQT.php", function(res) {
-            let myObj = JSON.parse(res);
-            renderChartKPI_TCT(myObj,'Tỷ lệ đề tài đạt/dự án đạt mức tuân thủ quy trình<a href="thongkeKPIQuyTrinh.php"><small>(Xem thêm)</small></a>')
-        });
-
-        $.get( "./json/jsonVoffice.php", function(res) {
-            let myObj = JSON.parse(res);
-            renderChartVoffice(myObj,'chart_Voffice',5, `<a href="thongkeVoffice.php">Văn bản ký Voffice TCT tháng ${m}</a>`,'column',null);
-        });
-
-        $.get( "./json/jsonVeco.php", function(res) {
-            let myObj = JSON.parse(res);
-            renderChartVeco(myObj,'chart_Veco',tuy_chon, `<a href="thongkeVeco.php">Sử dụng công cụ tuần ${w}</a>`);
-        });
-        
-    
     </script>
 
 </body>

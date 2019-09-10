@@ -26,31 +26,16 @@
         <div class="row">
             <div class="col-md-6 ">
                 <div class="content">
-                    <div id="chart_1" class="ct-chart"></div>
+                    <div id="chart_NhiemVuK2" class="ct-chart"></div>
                 </div>
             </div>
 
             <div class="col-md-6 ">
                 <div class="content">
-                    <div id="chart_KPI_quytrinh" class="ct-chart"></div>
+                    <div id="chart_KetLuanK2" class="ct-chart"></div>
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-6 ">
-                <div class="content">
-                    <div id="chart_Voffice" class="ct-chart"></div>
-                </div>
-            </div>
-        
-            <div class="col-md-6 ">
-                <div class="content">
-                    <div id="chart_Veco" class="ct-chart"></div>
-                </div>
-            </div>
-        </div>
-        
 
     </div>
 
@@ -69,33 +54,15 @@
     <script src="inc/js/myFunction.js"></script>
 
     <script src="inc/js/highchart.js"></script>
-    <script src="inc/js/highchartKPI.js"></script>
-    <script src="inc/js/highchartVoffice.js"></script>
-    <script src="inc/js/highchartVeco.js"></script>
+    <script src="inc/js/highchartKetLuan.js"></script>
     
     <script>
         
         $.get( "./json/json.php", function(res) {
             let myObj = JSON.parse(res);
-            renderChart(myObj,'chart_1',tuy_chon_1, '<a href="thongkeCongViec.php">Tổng quan công việc trên Veco</a>');
-        });
-
-        //Lấy trung bình tất cả
-        $.post( "./json/jsonQT.php", function(res) {
-            let myObj = JSON.parse(res);
-            renderChartKPI_TCT(myObj,'Tỷ lệ đề tài đạt/dự án đạt mức tuân thủ quy trình<a href="thongkeKPIQuyTrinh.php"><small>(Xem thêm)</small></a>')
-        });
-
-        $.get( "./json/jsonVoffice.php", function(res) {
-            let myObj = JSON.parse(res);
-            renderChartVoffice(myObj,'chart_Voffice',5, `<a href="thongkeVoffice.php">Văn bản ký Voffice TCT tháng ${m}</a>`,'column',null);
-        });
-
-        $.get( "./json/jsonVeco.php", function(res) {
-            let myObj = JSON.parse(res);
-            renderChartVeco(myObj,'chart_Veco',tuy_chon, `<a href="thongkeVeco.php">Sử dụng công cụ tuần ${w}</a>`);
-        });
-        
+            renderChart(myObj,'chart_NhiemVuK2',tuy_chon_3,'<a href="thongkeNhiemVuThangK2.php">Thống Kê Nhiệm Vụ</a>');
+            renderChartKetLuan(myObj,'chart_KetLuanK2',tuy_chon_4,'<a href="thongkeKetLuan.php">Thống Kê Kết Luận</a>');
+        }); 
     
     </script>
 

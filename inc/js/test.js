@@ -1,90 +1,12 @@
-function getDate(date) {
-  date = new Date(date);
-  return date.getTime();
-}
 
-function dataKPI(myObj) {
-  let data = [];
-  let names = Object.keys(myObj);
-  for (const name of names) {
-    let dataPoint = [];
-    for (const point of myObj[name]) {
-      dataPoint.push([getDate(point.thoigian), Number(point.diem)]);
-    }
-    data.push({ name: name, data: dataPoint });
-  }
-  return data;
-}
-
-function renderChartKPI(myObj) {
+function renderChartTest(myObj, title) {
   Highcharts.chart({
     chart: {
-      renderTo: "chart_KPI_quytrinh",
-      style: {
-        fontFamily: "Arial"
-      },
-      zoomType: "x",
-      //giu shift de keo
-      panning: true,
-      panKey: "shift"
-    },
-    title: {
-      useHTML: true,
-      text:
-        "KPI Tuân thủ quy trình: " +
-        $("#select_quy_trinh option:selected").text()
-    },
-    xAxis: {
-      type: "datetime",
-      labels: {
-        formatter: function() {
-          return Highcharts.dateFormat("%m-%Y", this.value);
-        }
-      }
-    },
-    yAxis: {
-      title: {
-        text: "% KPI"
-      },
-      allowDecimals: false,
-      min: 0
-      // tickInterval: 10,
-    },
-    plotOptions: {
-      line: {
-        dataLabels: {
-          enabled: true
-        },
-        enableMouseTracking: false
-      }
-    },
-    legend: {},
-    series: dataKPI(myObj),
-    credits: false
-  });
-}
-
-function renderChartKPI_TCT(myObj, title) {
-  Highcharts.setOptions({
-    colors: ["#0275d8", "#5cb85c", "#f0ad4e", "#d9534f"]
-  });
-  Highcharts.chart({
-    chart: {
-      renderTo: "chart_KPI_quytrinh",
+      renderTo: "chart_2",
       type: "column",
       zoomType: "y",
       style: {
         fontFamily: "Arial"
-      },
-      events: {
-        drilldown: function(e) {
-          var str = "dd-TCT";
-          console.log(this);
-          if (e.seriesOptions.id.indexOf("DV") != -1) {
-            alert("tttt");
-          }
-          console.log(e.seriesOptions.id);
-        }
       }
     },
     title: {
@@ -134,14 +56,11 @@ function renderChartKPI_TCT(myObj, title) {
           format: "{point.y:.0f}%"
         },
         //colorByPoint: true,
-        tooltip: {
-          enabled: false
-        }
+        tooltip: {}
       },
       line: {
         color: "#000",
         tooltip: {
-          enabled: false,
           headerFormat: "",
           pointFormat:
             '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
@@ -158,7 +77,7 @@ function renderChartKPI_TCT(myObj, title) {
         data: [
           {
             name: "TCT",
-            y: 53,
+            y: 61,
             drilldown: "dd-TCT-T7"
           }
         ]
@@ -168,7 +87,7 @@ function renderChartKPI_TCT(myObj, title) {
         data: [
           {
             name: "TCT",
-            y: 33,
+            y: 62,
             drilldown: "dd-TCT-T8"
           }
         ],
@@ -179,23 +98,13 @@ function renderChartKPI_TCT(myObj, title) {
       {
         type: "line",
         name: "Mục tiêu",
-        data: [70, 70, 70],
+        data: [80,80,80],
         xAxis: 1,
-        yaxis: 1,
-        drilldown: "line-drilldown"
+        yaxis: 1
       }
     ],
     drilldown: {
-      //allowPointDrilldown: false,
       series: [
-        {
-          type: "line",
-          name: "Mục tiêu",
-          id: "dd-TCT-T7",
-          xAxis: 1,
-          yaxis: 1,
-          data: [80, 80, 80]
-        },
         // dd Khối
         {
           name: "T7",
@@ -203,12 +112,12 @@ function renderChartKPI_TCT(myObj, title) {
           data: [
             {
               name: "Khối 1",
-              y: 54,
+              y: 69,
               drilldown: "dd-K1-T7"
             },
             {
               name: "Khối 2",
-              y: 64,
+              y: 75,
               drilldown: "dd-K2-T7"
             },
             {
@@ -225,17 +134,17 @@ function renderChartKPI_TCT(myObj, title) {
           data: [
             {
               name: "Khối 1",
-              y: 20,
+              y: 64,
               drilldown: "dd-K1-T8"
             },
             {
               name: "Khối 2",
-              y: 71,
+              y: 82,
               drilldown: "dd-K2-T8"
             },
             {
               name: "Khối 3",
-              y: 0,
+              y: 73,
               drilldown: "dd-K3-T8"
             }
           ]
@@ -248,22 +157,22 @@ function renderChartKPI_TCT(myObj, title) {
           data: [
             {
               name: "Trung tâm Thông tin và Tác chiến điện tử",
-              y: 100,
+              y: 92,
               drilldown: "dd-DV2-T7"
             },
             {
               name: "Trung tâm Quang điện tử",
-              y: 0,
+              y: 45,
               drilldown: "dd-DV3-T7"
             },
             {
               name: "Trung tâm Mô hình mô phỏng",
-              y: 0,
+              y: 62,
               drilldown: "dd-DV4-T7"
             },
             {
               name: "Trung tâm Chỉ huy điều khiển",
-              y: 0,
+              y: 57,
               drilldown: "dd-DV5-T7"
             }
           ]
@@ -274,22 +183,22 @@ function renderChartKPI_TCT(myObj, title) {
           data: [
             {
               name: "Trung tâm Thông tin và Tác chiến điện tử",
-              y: 25,
+              y: 71,
               drilldown: "dd-DV2-T8"
             },
             {
               name: "Trung tâm Quang điện tử",
-              y: 0,
+              y: 64,
               drilldown: "dd-DV3-T8"
             },
             {
               name: "Trung tâm Mô hình mô phỏng",
-              y: 33,
+              y: 60,
               drilldown: "dd-DV4-T8"
             },
             {
               name: "Trung tâm Chỉ huy điều khiển",
-              y: 0,
+              y: 49,
               drilldown: "dd-DV5-T8"
             }
           ]
@@ -301,22 +210,22 @@ function renderChartKPI_TCT(myObj, title) {
           data: [
             {
               name: "Trung tâm OCS",
-              y: 0,
+              y: 78,
               drilldown: "dd-K2-DV1-T7"
             },
             {
               name: "Trung tâm Nghiên cứu CN truyền dẫn",
-              y: 0,
+              y: 63,
               drilldown: "dd-K2-DV2-T7"
             },
             {
               name: "Trung tâm Công nghệ chuyển mạch",
-              y: 33,
+              y: 75,
               drilldown: "dd-K2-DV3-T7"
             },
             {
               name: "Trung tâm Nghiên cứu thiết bị VTBR",
-              y: 100,
+              y: 81,
               drilldown: "dd-K2-DV5-T7"
             }
           ]
@@ -327,22 +236,22 @@ function renderChartKPI_TCT(myObj, title) {
           data: [
             {
               name: "Trung tâm OCS",
-              y: 100,
+              y: 80,
               drilldown: "dd-K2-DV1-T8"
             },
             {
               name: "Trung tâm Nghiên cứu CN truyền dẫn",
-              y: 50,
+              y: 91,
               drilldown: "dd-K2-DV2-T8"
             },
             {
               name: "Trung tâm Công nghệ chuyển mạch",
-              y: 67,
+              y: 77,
               drilldown: "dd-K2-DV3-T8"
             },
             {
               name: "Trung tâm Nghiên cứu thiết bị VTBR",
-              y: 100,
+              y: 90,
               drilldown: "dd-K2-DV5-T8"
             }
           ]
@@ -376,7 +285,7 @@ function renderChartKPI_TCT(myObj, title) {
             },
             {
               name: "Phòng CORE",
-              y: 0,
+              y: 73,
               drilldown: "dd-K3-DV2-T8"
             }
           ]

@@ -1,5 +1,5 @@
 
-let tuy_chon = ['khong_cap_nhat']    
+let tuy_chon = ['khong_cap_nhat_tuan_truoc','khong_cap_nhat']    
 function renderChartVeco(myObj,chart,types,title){
     Highcharts.chart({
         chart: {
@@ -28,10 +28,17 @@ function renderChartVeco(myObj,chart,types,title){
             }
         },
         tooltip: {
-            headerFormat: '<span style="font-size:10px"><b>{point.key}</b></span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y} người</b></td></tr>',
-            footerFormat: '</table>',
+            formatter: function () {
+                //  console.log(this)
+                let hieuso = this.points[1].y - this.points[0].y
+                let html = `<b>${this.points[0].key}</b><br>So với tuần trước: `
+                if(hieuso <= 0){
+                    html += `<i class="fas fa-arrow-down" style="color: #51cf66;"></i>` + hieuso*-1;
+                }
+                else html += `<i class="fas fa-arrow-up" style="color: #ff6b6b;"></i>` + hieuso;
+
+                return html;
+            },
             shared: true,
             useHTML: true
         },
@@ -46,10 +53,10 @@ function renderChartVeco(myObj,chart,types,title){
                 borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                }
+                },
             },
         },
-        series: dataSeries(myObj,types,'#a94442'),  
+        series: dataSeries(myObj,types,['#FFA500','#a94442']),  
         drilldown: {
             series: dataDrilldown(myObj,types)
         },

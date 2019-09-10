@@ -6,12 +6,11 @@ error_reporting(E_ALL);
 require_once('../database.php');
 
 $week = date("W")-1;
-
-$query="SELECT khoi, don_vi.ten AS ten_don_vi, tuy_chon.ten AS ten_tuy_chon, chi_so 
+$query="SELECT khoi, don_vi.ten AS ten_don_vi, tuy_chon.ten AS ten_tuy_chon, chi_so , WEEK(kpi_veco.thoi_gian,1) AS thoi_gian
 FROM kpi_veco 
 INNER JOIN don_vi ON don_vi.id = kpi_veco.don_vi_id 
 INNER JOIN tuy_chon ON tuy_chon_id = tuy_chon.id
-WHERE WEEK(kpi_veco.thoi_gian,1) = $week";
+WHERE WEEK(kpi_veco.thoi_gian,1) = $week OR WEEK(kpi_veco.thoi_gian,1) = $week-1";
 $statement = $db->prepare($query);
 $statement->execute();
 $kpi= $statement->fetchAll(PDO::FETCH_ASSOC|PDO::FETCH_GROUP);

@@ -63,7 +63,7 @@ img {
     bottom: 0;
     margin: auto;
 }
-@media (max-width: 1200px) { 
+@media (max-width: 1700px) { 
     img {
         display: block;
         position: initial;

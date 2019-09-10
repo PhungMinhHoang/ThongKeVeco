@@ -104,11 +104,11 @@ function renderChartVoffice(myObj,chart,khoi,title,chartType,height){
             },
         },
         series: [{
-            name: 'Số văn bản ký quá 4h làm việc Tháng trước',
+            name: `Số văn bản ký quá 4h làm việc Tháng ${m-1}`,
             data: dataVoffice(myObj,khoi,m-1),
             color: '#428bca',
         },{
-            name: 'Số văn bản ký quá 4h làm việc Tháng này',
+            name: `Số văn bản ký quá 4h làm việc Tháng ${m}`,
             data: dataVoffice(myObj,khoi,m),
             color: '#a94442',
         }], 

@@ -87,72 +87,61 @@ function average($db){
 if(isset($_POST['submit'])){
     // Count total files
     $countfiles = count($_FILES['file']['name']);
-    $check =1;
-    if ($_FILES['file']['size'][0] == 0 && $_FILES['file']['error'][0] != 0){
-        echo 'Chưa có file nào được upload';
-        $check = 0 ;
-    }
-    else{
-         // Looping all files
-        for($i = 0 ; $i < $countfiles ; $i++){
-            $filename = $_FILES['file']['tmp_name'][$i];
-            $name = $_FILES['file']['name'][$i];
-            $xlsx = new XLSXReader($filename);
-            // $sheets = $xlsx->getSheetNames();
-            // print_r($sheets);
-            $data = $xlsx->getSheetData('ThongKe');
-            
-            
-            //Kiểm tra format
-            if($data[0] == ['ma_quy_trinh','ma_de_tai','diem','thoigian']){
-                for ($i=1; $i < count($data) ; $i++) { 
-                    //Query quy_trinh_id
-                    $ma_quy_trinh = $data[$i][0];
-                    $query="SELECT id FROM quy_trinh WHERE ma_quy_trinh = '$ma_quy_trinh'";
-                    $statement = $db->prepare($query);
-                    $statement->execute();
-                    $quy_trinh_id = $statement->fetch(PDO::FETCH_ASSOC);
-                    $statement->closeCursor();
-                    $quy_trinh_id = $quy_trinh_id['id'];
+    print_r($_FILES['file']);
+	 // Looping all files
+	for($i = 0 ; $i < $countfiles ; $i++){
+		$filename = $_FILES['file']['tmp_name'][$i];
+		$name = $_FILES['file']['name'][$i];
+		$xlsx = new XLSXReader($filename);
+		// $sheets = $xlsx->getSheetNames();
+		// print_r($sheets);
+		$data = $xlsx->getSheetData('ThongKe');
+		
+		
+		//Kiểm tra format
+		for ($i=1; $i < count($data) ; $i++) { 
+			//Query quy_trinh_id
+			$ma_quy_trinh = $data[$i][0];
+			$query="SELECT id FROM quy_trinh WHERE ma_quy_trinh = '$ma_quy_trinh'";
+			$statement = $db->prepare($query);
+			$statement->execute();
+			$quy_trinh_id = $statement->fetch(PDO::FETCH_ASSOC);
+			$statement->closeCursor();
+			$quy_trinh_id = $quy_trinh_id['id'];
 
-                    //Query du_an_id
-                    $ma_de_tai = $data[$i][1];
-                    $query="SELECT id FROM du_an WHERE ma_de_tai = '$ma_de_tai'";
-                    $statement = $db->prepare($query);
-                    $statement->execute();
-                    $du_an_id = $statement->fetch(PDO::FETCH_ASSOC);
-                    $statement->closeCursor();  
-                    $du_an_id = $du_an_id['id'];
+			//Query du_an_id
+			$ma_de_tai = $data[$i][1];
+			$query="SELECT id FROM du_an WHERE ma_de_tai = '$ma_de_tai'";
+			$statement = $db->prepare($query);
+			$statement->execute();
+			$du_an_id = $statement->fetch(PDO::FETCH_ASSOC);
+			$statement->closeCursor();  
+			$du_an_id = $du_an_id['id'];
 
-                    if(empty($quy_trinh_id) || empty($du_an_id)){
-                        $mes = '';
-                        if(empty($quy_trinh_id)) $mes .= "Không tồn tại mã quy trình: $ma_quy_trinh \\n";
-                        if(empty($du_an_id)) $mes .= "Không tồn tại mã đề tài: $ma_de_tai \\n";
-                        $mes .= "Trong file: $name";
-                        echo "<script>alert('$mes')</script>";
-                    }
-                    else{
-                        //Insert to database
-                        $diem = $data[$i][2];
-                        $thoigian = $data[$i][3];
-                        $query="INSERT INTO `kpi_quytrinh`( `quy_trinh_id`, `du_an_id`, `diem`, `thoigian`) VALUES ($quy_trinh_id,$du_an_id,$diem,'$thoigian')";
-                        $statement = $db->prepare($query);
-                        $statement->execute();
-                        $statement->closeCursor();
-                    }
-                }
-            }
-            else {
-                $check = 0;
-                echo "<script>alert('File excel không đúng format')</script>";
-            }
-        }
-    }
+			if(empty($quy_trinh_id) || empty($du_an_id)){
+				$mes = '';
+				if(empty($quy_trinh_id)) $mes .= "Không tồn tại mã quy trình: $ma_quy_trinh \\n";
+				if(empty($du_an_id)) $mes .= "Không tồn tại mã đề tài: $ma_de_tai \\n";
+				$mes .= "Trong file: $name";
+				echo "<script>alert('$mes')</script>";
+			}
+			else{
+				//Insert to database
+				$diem = $data[$i][2];
+                $thoigian = $data[$i][3];
+                echo $diem.'<br>';
+				// $query="INSERT INTO `kpi_quytrinh`( `quy_trinh_id`, `du_an_id`, `diem`, `thoigian`) VALUES ($quy_trinh_id,$du_an_id,$diem,'$thoigian')";
+				// $statement = $db->prepare($query);
+				// $statement->execute();
+				// $statement->closeCursor();
+			}
+		}
+	}
+	
+	//echo "<script type=\"text/javascript\">alert('Thêm thành công')</script>";
+	//header("Refresh:0");
 
-    if($check == 1) {
-        echo "<script type=\"text/javascript\">alert('Thêm thành công')</script>";
-        header("Refresh:0");
-    }
+	
 }
 
 if(isset($_POST['submitQuyTrinh'])){
@@ -226,7 +215,7 @@ if(isset($_POST['submitTrungBinh'])){
     <!-- Upload file -->
     <form method='post' action='' enctype='multipart/form-data' >
         <p class="help-block"><b>Only Excel/XLSX File Import.</b></p>
-        <input type="file" name="file[]" id="file" multiple accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+        <input type="file" name="file[]" id="file" multiple accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required/>
         <input type='submit' name='submit' value='Upload' />
     </form>
     <!-- Thêm quy trình -->

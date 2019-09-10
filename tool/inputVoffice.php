@@ -2,11 +2,9 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
 require_once('../database.php');
 require('XLSXReader.php');
 require_once 'PHPExcel/Classes/PHPExcel.php';
-
 function user_id($db,$ten){
     $query="SELECT id FROM user WHERE ten = '$ten'";
     $statement = $db->prepare($query);
@@ -15,12 +13,20 @@ function user_id($db,$ten){
     $statement->closeCursor();
     return $user_id;
 }
+function getListUserName($db){
+    $query="SELECT id, ten FROM user";
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $users = $statement->fetchall(PDO::FETCH_ASSOC);
+    $statement->closeCursor();
+    return $users;
+}
+
 
 if(isset($_POST['submit'])){
     // Count total files
     $countfiles = count($_FILES['file']['name']);
     $thoi_gian = date("Y-m-d",strtotime($_POST['thoi_gian']));
-
     // Looping all files
     $ds = [];
     for($f = 0 ; $f < $countfiles ; $f++){
@@ -63,23 +69,23 @@ if(isset($_POST['submit'])){
         }
         //Hiển thị mảng dữ liệu  
     }
-
-    foreach ($ds as $ten => $chi_so) {
-        $user_id = user_id($db,$ten);
+    //Tim kiem data theo list user lay duoc tu db
+    $users = getListUserName($db);
+    foreach ($users as $user) {
+        $user_id = $user['id'];
+        $user_name = $user['ten'];
+        if(array_key_exists($user_name,$ds))
+            $chi_so = $ds[$user_name];
+        else
+            $chi_so = 0;
         $query="INSERT INTO `chi_so_voffice`( `user_id`, `tuy_chon_id`, `chi_so`, `thoi_gian`) VALUES ($user_id,13,$chi_so,'$thoi_gian')";
-        echo $query;
         $statement = $db->prepare($query);
         $statement->execute();
         $statement->closeCursor();
     }
-    // echo '<pre>';
-    // print_r($ds);
-    // echo '</pre>';
 
-    //Done
     echo "<script type=\"text/javascript\">alert('Thêm thành công')</script>";
     header("Refresh:0");
-
 }
 ?>
 

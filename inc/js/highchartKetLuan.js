@@ -1,10 +1,8 @@
-//chartThongKeCongViec
-let tuy_chon_1 = ['viec_duoc_giao','viec_hoan_thanh_khong_dung_han','viec_hoan_thanh_dung_han','viec_chua_hoan_thanh'],
-    tuy_chon_2 = ['viec_dang_thuc_hien','viec_tu_choi','viec_tam_dung','viec_khoi_tao_moi','viec_cho_duyet','viec_de_nghi_dung','viec_vuong_mac_de_xuat','viec_khac'];
-//chartThongKeNhiemVuThangK2
-let tuy_chon_3 = ['nhiem-vu-TGD-giao','nhiem-vu-PTGD-giao'];
 
-function renderChart(myObj,chart,types,title){
+//chartKetLuan
+let tuy_chon_4 = ['ket-luan-qua-han-TD','ket-luan-TD','ket-luan-qua-han-TCT','ket-luan-TCT','ket-luan-qua-han-K2','ket-luan-K2'];
+
+function renderChartKetLuan(myObj,chart,types,title){
     Highcharts.chart({
         chart: {
             renderTo: chart,
@@ -29,6 +27,13 @@ function renderChart(myObj,chart,types,title){
             min: 0,
             title: {
                 text: ''
+            },
+            stackLabels: {
+                enabled: true,
+                align: 'center',
+                formatter: function() {
+                    return this.stack;
+                }
             }
         },
         tooltip: {
@@ -48,15 +53,15 @@ function renderChart(myObj,chart,types,title){
             column: {
                 pointPadding: 0.2,
                 borderWidth: 0,
-                // stacking: 'normal',
-                // dataLabels: {
-                //     enabled: true
-                // }
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true
+                }
             },
         },
-        series: dataSeries(myObj,types),   
+        series: dataSeriesStack(myObj,types),   
         drilldown: {
-            series: dataDrilldown(myObj,types)
+            series: dataDrilldownStack(myObj,types)
         },
         credits : false
     });
