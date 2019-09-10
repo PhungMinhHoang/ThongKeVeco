@@ -47,7 +47,7 @@ function renderChartKPI(myObj) {
         text: "% KPI"
       },
       allowDecimals: false,
-      min: 0
+      min: 0,
       // tickInterval: 10,
     },
     plotOptions: {
@@ -79,11 +79,11 @@ function renderChartKPI_TCT(myObj, title) {
       events: {
         drilldown: function(e) {
           var str = "dd-TCT";
-          console.log(this);
+          //console.log(this);
           if (e.seriesOptions.id.indexOf("DV") != -1) {
-            alert("tttt");
+            this.series[0].setData([80,80,80])
           }
-          console.log(e.seriesOptions.id);
+          //console.log(e.seriesOptions.id);
         }
       }
     },
@@ -108,6 +108,7 @@ function renderChartKPI_TCT(myObj, title) {
     ],
     yAxis: {
       min: 0,
+      max:100,
       allowDecimals: false,
       //tickInterval: 10,
       title: {
