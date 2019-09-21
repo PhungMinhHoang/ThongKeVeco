@@ -4,7 +4,7 @@ Date.prototype.getWeek = function() {
 }
 var d = new Date();
 var m = d.getMonth();
-var w = d.getWeek()-1;
+var w = d.getWeek()-2;
 
 function dataKhoi(myObj,khoi,type){
     //console.log(khoi)
@@ -164,7 +164,7 @@ function dataSeries(myObj,types,color){
         }
         data.push(obj);
     }
-    console.log("seri",data);
+    //console.log("seri",data);
     return data;
 }
 function dataSeriesStack(myObj,types,color){
@@ -296,7 +296,7 @@ function dataDrilldown(myObj,types) {
             data.push(obj);
         }
     }
-    console.log("drilldown",data);
+    //console.log("drilldown",data);
     return data;
 }
 function dataDrilldownStack(myObj,types) {

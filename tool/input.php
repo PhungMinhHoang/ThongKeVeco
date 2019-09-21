@@ -65,7 +65,8 @@ function average($db){
     
     foreach ($danh_sach_du_an as $k => $du_an) {
         $du_an_id = $du_an['du_an_id'];
-        $query="SELECT thoigian , diem FROM kpi_quytrinh WHERE quy_trinh_id <> 7 AND du_an_id = $du_an_id ORDER BY thoigian";
+        $query="SELECT thoigian , diem FROM kpi_quytrinh WHERE quy_trinh_id <> 7 AND du_an_id = $du_an_id AND diem IS NOT NULL
+		ORDER BY thoigian";
         $statement = $db->prepare($query);
         $statement->execute();
         /* Group values by the first column */
