@@ -1,75 +1,60 @@
 * {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial';
+    font-family: "Times New Roman", Times, serif;
 }
+
 body {
-    height: 100vh;
     /* Center and scale the image nicely */
     background-color: #f4f3ef;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 header {
-    padding: 3vh 0;
-    
-    position: relative;
-    background-color: #01586b; 
+    padding: 1vh 0;
+    display: flex;
+    background-color: #01586b;
     width: 100%;
 }
+
 h1 {
     color: white;
     /* text-shadow: 0.075em 0.08em 0.1em rgba(0, 0, 0, 1); */
     text-align: center;
     font-size: 40px;
     letter-spacing: 0.4px;
-    margin:auto;
+    margin: auto;
     text-transform: uppercase;
     font-family: verdana;
     font-weight: 600;
-    text-shadow: 1px 1px 1px #919191,
-        1px 3px 1px #919191,
-        1px 4px 1px #919191,
-        1px 5px 1px #919191,
-        1px 6px 1px #919191,
-        1px 18px 6px rgba(16,16,16,0.4),
-        1px 22px 10px rgba(16,16,16,0.2),
-        1px 25px 35px rgba(16,16,16,0.2),
-        1px 30px 60px rgba(16,16,16,0.4);
+    text-shadow: 1px 1px 1px #919191, 1px 3px 1px #919191, 1px 4px 1px #919191,
+        1px 5px 1px #919191, 1px 6px 1px #919191, 1px 18px 6px rgba(16, 16, 16, 0.4),
+        1px 22px 10px rgba(16, 16, 16, 0.2), 1px 25px 35px rgba(16, 16, 16, 0.2),
+        1px 30px 60px rgba(16, 16, 16, 0.4);
 }
+
 .content {
     background-color: #fff;
-    padding: 15px;
     box-shadow: 5px 10px 40px 5px rgba(0, 0, 0, 0.5);
     border-radius: 6px;
-    margin-top:10px;
-}
-.container-fluid{
-    width: 90%;
-    margin-top: 30px;
-}
-.container{
-    margin-top: 30px;
-}
-.row{
-    margin-top: 20px;
+    margin-top: 2rem;
 }
 
 img {
-    position: absolute;
-    top: 0;
-    left: 100px;
-    bottom: 0;
-    margin: auto;
+   margin-left: 1rem
 }
-@media (max-width: 1700px) { 
-    img {
+
+@media (max-width: 768px) {
+    header {
         display: block;
-        position: initial;
+    }
+
+    img {
+        display: block; 
         margin: auto;
     }
 }
-.ct-chart{
-    max-height: 42vh;
+
+.ct-chart {
+    max-height: 45vh;
 }

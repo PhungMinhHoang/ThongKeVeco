@@ -45,8 +45,8 @@
     <script>
         $.get( "./json/json.php", function(res) {
             let myObj = JSON.parse(res);
-            console.log(myObj)
-            renderChartKetLuan(myObj,'chart',tuy_chon_4,'Khối 2','#058DC7');
+            //console.log(myObj)
+            renderChartKetLuan(myObj,'chart',tuy_chon_4,'Khối 2');
         }); 
     
     </script>

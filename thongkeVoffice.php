@@ -66,10 +66,10 @@
         $('h1').html(`Thống kê Voffice tháng ${m}`)
         $.get( "./json/jsonVoffice.php", function(res) {
             let myObj = JSON.parse(res);
-            renderChartVoffice(myObj,'chart_TCT',0, 'Ban giám đốc','column',300);
-            renderChartVoffice(myObj,'chart_1',1, 'Chỉ huy khối 1 + 3','bar',450);
-            renderChartVoffice(myObj,'chart_2',2, 'Chỉ huy khối 2','bar',450);
-            renderChartVoffice(myObj,'chart_4',4, 'Chỉ huy khối cơ quan','bar',450);
+            renderChartVoffice(myObj,'chart_TCT',0, 'Ban Tổng Giám đốc','','column',300);
+            renderChartVoffice(myObj,'chart_1',1, 'Chỉ huy khối 1 + 3','','bar',1000);
+            renderChartVoffice(myObj,'chart_2',2, 'Chỉ huy khối 2','','bar',1000);
+            renderChartVoffice(myObj,'chart_4',4, 'Chỉ huy khối cơ quan','','bar',1000);
         });
     </script>
     

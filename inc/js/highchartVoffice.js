@@ -33,7 +33,7 @@ function dataVoffice(myObj,khoi,thang){
             name: 'Khối 2',
             y: dataKhoi[2]
         },{
-            name: 'Khối 4',
+            name: 'Khối cơ quan',
             y: dataKhoi[4]
         }]
     }
@@ -41,7 +41,7 @@ function dataVoffice(myObj,khoi,thang){
     return data
 }
 
-function renderChartVoffice(myObj,chart,khoi,title,chartType,height){
+function renderChartVoffice(myObj,chart,khoi,title,subtitle,chartType,height){
     Highcharts.chart({
         chart: {
             renderTo: chart,
@@ -57,7 +57,8 @@ function renderChartVoffice(myObj,chart,khoi,title,chartType,height){
             useHTML:true
         },
         subtitle: {
-            text: '<b>Đã trừ ĐƠN XIN NGHỈ PHÉP</b>'
+            text: '<b>Đã trừ ĐƠN XIN NGHỈ PHÉP</b><br/>'+'<center>'+subtitle+'</center>',
+			useHTML: true
         },
         xAxis: {
             type: 'category',

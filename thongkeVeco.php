@@ -9,8 +9,7 @@
     <!-- bootsrap -->
     <link rel="stylesheet" href="./inc/bootstrap/bootstrap.min.css">
     <!-- css -->
-    <link rel="stylesheet" href="./inc/css/main.css">
-    <link rel="stylesheet" href="./inc/css/fontawesome-free-5.9.0-web/css/all.css">     
+    <link rel="stylesheet" href="./inc/css/main.css">  
     
 </head>
 <body>
@@ -47,8 +46,9 @@
     <script>
         $.get( "./json/jsonVeco.php", function(res) {
             let myObj = JSON.parse(res);
-            console.log(myObj);
-            renderChartVeco(myObj,'chart_Veco',tuy_chon, `<a href="thongkeVeco.php">Sử dụng công cụ tuần ${w}</a>`);
+            console.log(myObj)
+            renderChartVeco(myObj,'chart_Veco',tuy_chon, `Sử dụng công cụ tuần ${w} `);
+
         }); 
     
     </script>

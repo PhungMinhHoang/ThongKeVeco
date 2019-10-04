@@ -1,7 +1,7 @@
 function renderChart(chart,dataColumn,dataLine,title,maxY){
     maxY = (maxY==undefined) ? 100 : maxY;
     Highcharts.setOptions({
-        colors: ['#0275d8','#5cb85c']
+        //colors: ['#0275d8','#5cb85c']
     });
     Highcharts.chart({
         chart: {
@@ -11,6 +11,16 @@ function renderChart(chart,dataColumn,dataLine,title,maxY){
             style: {
                 fontFamily: 'Arial'
             },
+			/*
+			events: {
+				load: function() {
+					const chart = this;
+					setTimeout(function(){
+						chart.exportChart()
+					},1000)
+				}
+			}
+			*/
         },
         title: {
             text: title,
@@ -84,6 +94,12 @@ function renderChart(chart,dataColumn,dataLine,title,maxY){
             {
                 name: 'Tỷ lệ tháng 8',
                 data: dataColumn[1],
+                "xAxis": 0,
+                "yaxis": 0,
+            },
+			{
+                name: 'Tỷ lệ tháng 9',
+                data: dataColumn[2],
                 "xAxis": 0,
                 "yaxis": 0,
             },

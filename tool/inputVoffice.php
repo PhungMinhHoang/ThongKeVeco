@@ -69,8 +69,9 @@ if(isset($_POST['submit'])){
         }
         //Hiển thị mảng dữ liệu  
     }
+	print_r($ds);
     //Tim kiem data theo list user lay duoc tu db
-    $users = getListUserName($db);
+	$users = getListUserName($db);
     foreach ($users as $user) {
         $user_id = $user['id'];
         $user_name = $user['ten'];
@@ -83,7 +84,7 @@ if(isset($_POST['submit'])){
         $statement->execute();
         $statement->closeCursor();
     }
-
+	
     echo "<script type=\"text/javascript\">alert('Thêm thành công')</script>";
     header("Refresh:0");
 }

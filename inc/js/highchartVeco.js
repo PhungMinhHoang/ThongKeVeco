@@ -9,9 +9,36 @@ function renderChartVeco(myObj,chart,types,title){
             style: {
                 fontFamily: 'Arial'
             },
+			events: {
+				drilldown: function (e) {
+					//console.log(e)
+					let str = e.seriesOptions.id;
+					//console.log(str);
+					if (str.indexOf("1") != -1) {
+						str = '(Khối 1)'
+					}
+					else if (str.indexOf("2") != -1) {
+						str = '(Khối 2)'
+					}
+					else if (str.indexOf("3") != -1) {
+						str = '(Khối 3)'
+					}
+					else if (str.indexOf("4") != -1) {
+						str = '(Khối cơ quan)'
+					}
+					this.setTitle({
+						text: title+str
+					});
+				},
+				drillup: function (e) {
+					this.setTitle({
+						text: title+'(TCT)'
+					});
+				}
+			},
         },
         title: {
-            text: title,
+            text: title+'(TCT)',
             useHTML:true
         },
         subtitle: {

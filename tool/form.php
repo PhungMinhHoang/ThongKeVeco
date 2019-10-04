@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once('../database.php');
+require_once('database.php');
 
 function listDeTai($db){
     $query="SELECT id,ten FROM du_an";
@@ -48,12 +48,13 @@ function listQuyTrinh($db){
   <title>Checklist Quy Trình</title>
 
   <!-- bootsrap -->
-  <link rel="stylesheet" href="../inc/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="../inc/bootstrap/bootstrap-grid.min.css">
+  <link rel="stylesheet" href="./inc/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="./inc/bootstrap/bootstrap-grid.min.css">
   <!-- css -->
     <style>
         select{
             border: none;
+            width: 100%;
         }
     </style>
 </head>
@@ -61,7 +62,6 @@ function listQuyTrinh($db){
 <body>
 <br>
     <div class='container'>
-        
         <table class="table table-bordered">
             <tr>
                 <th scope="row">Tên Đề tài/Dự án</th>
@@ -125,8 +125,8 @@ function listQuyTrinh($db){
     <div id='quy_trinh_3' style="display:none">Test3</div>
   </div>
   <!-- script -->
-  <script src="../inc/jquery.js"></script>
-  <script src="../inc/bootstrap.js"></script>
+  <script src="./inc/jquery.js"></script>
+  <script src="./inc/bootstrap.js"></script>
 
   <script>
     $('#select_quy_trinh').on('change', function (e) {

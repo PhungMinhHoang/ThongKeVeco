@@ -5,10 +5,11 @@ error_reporting(E_ALL);
 
 require_once('../database.php');
 
-$query="SELECT khoi, don_vi.ten AS ten_don_vi, tuy_chon.ten AS ten_tuy_chon, chi_so 
-    FROM chi_so_veco 
+$query="SELECT khoi, don_vi.ten AS ten_don_vi, tuy_chon.ten AS ten_tuy_chon, chi_so , MONTH(thoi_gian) AS thoi_gian
+    FROM chi_so_veco
     INNER JOIN don_vi ON don_vi_id = don_vi.id 
-    INNER JOIN tuy_chon ON tuy_chon_id = tuy_chon.id";
+    INNER JOIN tuy_chon ON tuy_chon_id = tuy_chon.id
+    WHERE don_vi.ten <> 'Khối 1' AND don_vi.ten <> 'Khối 2'";
 
 $statement = $db->prepare($query);
 $statement->execute();
