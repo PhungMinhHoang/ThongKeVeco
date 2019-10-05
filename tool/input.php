@@ -65,7 +65,10 @@ function average($db){
     
     foreach ($danh_sach_du_an as $k => $du_an) {
         $du_an_id = $du_an['du_an_id'];
-        $query="SELECT thoigian , diem FROM kpi_quytrinh WHERE quy_trinh_id <> 7 AND du_an_id = $du_an_id ORDER BY thoigian";
+        $query="SELECT thoigian , diem 
+            FROM kpi_quytrinh 
+            WHERE quy_trinh_id <> 8 AND du_an_id = $du_an_id AND diem IS NOT NULL
+            ORDER BY thoigian";
         $statement = $db->prepare($query);
         $statement->execute();
         /* Group values by the first column */
@@ -75,7 +78,7 @@ function average($db){
             //Chi lay trong nam hien tai
             $average = array_sum($danh_sach_diem)/count($danh_sach_diem);
             $tb = round($average);
-            $query="UPDATE `kpi_quytrinh` SET `diem` = $tb WHERE quy_trinh_id = 7 AND du_an_id = $du_an_id AND thoigian = '$thoigian'";
+			$query="INSERT INTO kpi_quytrinh (quy_trinh_id,du_an_id,diem,thoigian) VALUES (8,$du_an_id,$tb,'$thoigian')";
             $statement = $db->prepare($query);
             $statement->execute();
         }
@@ -97,8 +100,6 @@ if(isset($_POST['submit'])){
 		// print_r($sheets);
 		$data = $xlsx->getSheetData('ThongKe');
 		
-		
-		//Kiểm tra format
 		for ($i=1; $i < count($data) ; $i++) { 
 			//Query quy_trinh_id
 			$ma_quy_trinh = $data[$i][0];
@@ -110,7 +111,7 @@ if(isset($_POST['submit'])){
 			$quy_trinh_id = $quy_trinh_id['id'];
 
 			//Query du_an_id
-			$ma_de_tai = $data[$i][1];
+			$ma_de_tai = $data[$i][6];
 			$query="SELECT id FROM du_an WHERE ma_de_tai = '$ma_de_tai'";
 			$statement = $db->prepare($query);
 			$statement->execute();
@@ -127,72 +128,25 @@ if(isset($_POST['submit'])){
 			}
 			else{
 				//Insert to database
-				$diem = $data[$i][2];
-                $thoigian = $data[$i][3];
-                echo $diem.'<br>';
-				// $query="INSERT INTO `kpi_quytrinh`( `quy_trinh_id`, `du_an_id`, `diem`, `thoigian`) VALUES ($quy_trinh_id,$du_an_id,$diem,'$thoigian')";
-				// $statement = $db->prepare($query);
-				// $statement->execute();
-				// $statement->closeCursor();
+                $diem = $data[$i][1];
+                //var_dump($diem);
+                if($diem != 'N/A') $diem = $diem*100;
+                else{
+                    $diem = 'NULL';
+                }
+                $thoigian = $data[$i][2];
+				$query="INSERT INTO `kpi_quytrinh`( `quy_trinh_id`, `du_an_id`, `diem`, `thoigian`) VALUES ($quy_trinh_id,$du_an_id,$diem,'$thoigian')";
+				$statement = $db->prepare($query);
+				$statement->execute();
+				$statement->closeCursor();
 			}
 		}
 	}
 	
-	//echo "<script type=\"text/javascript\">alert('Thêm thành công')</script>";
-	//header("Refresh:0");
+	echo "<script type=\"text/javascript\">alert('Thêm thành công')</script>";
+	header("Refresh:0");
 
 	
-}
-
-if(isset($_POST['submitQuyTrinh'])){
-    $ten = $ma_quy_trinh = '';
-    $ten = checkInput($_POST["ten"]);
-    $ma_quy_trinh = checkInput($_POST["ma_quy_trinh"]);
-
-    $query="INSERT INTO `quy_trinh`( `ten`,`ma_quy_trinh`) VALUES (:ten,:ma_quy_trinh)";
-    $statement = $db->prepare($query);
-    $statement->bindParam(':ten',$ten);
-    $statement->bindParam(':ma_quy_trinh',$ma_quy_trinh);
-    $statement->execute();
-    print_r( $statement);
-    $statement->closeCursor();
-    echo "<script>alert('Đã thêm quy trình: $ten')</script>";
-    header("Refresh:0");
-}
-
-if(isset($_POST['submitDeTai'])){
-    $ten = $ma_de_tai = $don_vi = '';
-    $ten = checkInput($_POST["ten"]);
-    $ma_de_tai = checkInput($_POST["ma_de_tai"]);
-    $don_vi = checkInput($_POST['don_vi']);
-    $query="INSERT INTO `du_an`( `ten`,`ma_de_tai`,`donvi_id`) VALUES (:ten , :ma_de_tai , :don_vi_id)";
-    $statement = $db->prepare($query);
-    $statement->bindParam(':ten', $ten);
-    $statement->bindParam(':ma_de_tai', $ma_de_tai);
-    $statement->bindParam(':don_vi_id', $don_vi);
-    $statement->execute();
-    $statement->closeCursor();
-    echo "<script>alert('Đã thêm đề tài: $ten')</script>";
-    header("Refresh:0");
-}
-if(isset($_POST['submitKpiQuyTrinh'])){
-    $quy_trinh = $de_tai = $diem = $thoigian='';
-    $quy_trinh = checkInput($_POST["quy_trinh"]);
-    $de_tai = checkInput($_POST["de_tai"]);
-    $diem = checkInput($_POST['diem']);
-    $thoigian = checkInput($_POST['thoigian']);
-    if(empty($thoigian)) $thoigian = date("Y-m");
-    else $thoigian = date("Y-m",strtotime($thoigian));
-    $query="INSERT INTO `kpi_quytrinh`( `quy_trinh_id`,`du_an_id`,`diem`,`thoigian`) VALUES (:quy_trinh , :de_tai , :diem , :thoigian)";
-    $statement = $db->prepare($query);
-    $statement->bindParam(':quy_trinh', $quy_trinh);
-    $statement->bindParam(':de_tai', $de_tai);
-    $statement->bindParam(':diem', $diem);
-    $statement->bindParam(':thoigian', $thoigian);
-    $statement->execute();
-    $statement->closeCursor();
-    echo "<script>alert('Chấm thành công')</script>";
-    header("Refresh:0");
 }
 if(isset($_POST['submitTrungBinh'])){
     average($db);

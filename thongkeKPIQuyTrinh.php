@@ -75,6 +75,10 @@
     <script src="inc/js/highchartKPI.js"></script>
 
     <script>
+        $.post("./json/jsonQT.php", function(res) {
+            let myObj = JSON.parse(res);
+            renderChartKPI_TCT(myObj, 'PI<sub>1</sub>: Tỷ lệ ĐT,DA đạt mức tuân thủ',null)
+        });
         let dataColumn2 = [
                 [82,78,88,0],
                 [76,71,100,50],
@@ -99,7 +103,6 @@
             dataLine3 = [100, 100, 100],
             dataLine4 = [3, 3, 3];
 
-        renderChartKPI_TCT(null, '<div title="Tỷ lệ các đề tài/dự án đạt mức độ tuân thủ quy trình">PI<sub>1</sub>:Tỷ lệ ĐT,DA đạt mức tuân thủ</div>')
         renderChart('chart_2', dataColumn2, dataLine2, '<a href="quytrinh.php"><div title="TỶ LỆ CÁC ĐỀ TÀI,DỰ ÁN ĐƯỢC ĐÁNH GIÁ">PI<sub>2</sub>: Tỷ lệ ĐT,DA được đánh giá</div></a>');
         renderChart('chart_3', dataColumn3, dataLine3, '<a href="quytrinh.php"><div title="TỶ LỆ CÁC ĐỀ TÀI,DỰ ÁN ĐƯỢC AUDIT">PI<sub>3</sub>: Tỷ lệ ĐT,DA được audit</div></a>');
         renderChart('chart_4', dataColumn4, dataLine4, '<a href="quytrinh.php"><div title="TỶ LỆ CÁC ĐỀ TÀI,DỰ ÁN TUÂN THỦ QUY TRÌNH Ở MỨC THẤP">PI<sub>4</sub>: Tỷ lệ ĐT,DA có mức tuân thủ thấp</div></a>');

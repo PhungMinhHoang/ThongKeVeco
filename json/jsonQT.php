@@ -39,25 +39,24 @@ else if (!empty($don_vi)){
     
 }
 else {
-    $query="SELECT thoigian , diem FROM kpi_quytrinh ORDER BY thoigian ";
+    //Lấy kpi trung binh tat ca du an
+    $query="SELECT don_vi.khoi,don_vi.ten AS ten_don_vi,temp.ten_du_an,temp.diem,temp.thoigian
+    FROM (
+        SELECT du_an.ten AS ten_du_an, kpi_quytrinh.diem, kpi_quytrinh.thoigian, du_an.donvi_id AS don_vi_id
+        FROM kpi_quytrinh
+        Inner join du_an on du_an.id = kpi_quytrinh.du_an_id
+        WHERE quy_trinh_id = 8
+    ) AS temp
+    INNER JOIN don_vi ON temp.don_vi_id = don_vi.id
+    ORDER BY don_vi.khoi";
 
     $statement = $db->prepare($query);
     $statement->execute();
     /* Group values by the first column */
-    $kpi = $statement->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_GROUP);
+    $kpi = $statement->fetchAll(PDO::FETCH_ASSOC);
     $statement->closeCursor();
-
-    foreach ($kpi as $thoigian => $danh_sach_diem) {
-        //Chi lay trong nam hien tai
-        if($thoigian >= date("Y")){
-            $average = array_sum($danh_sach_diem)/count($danh_sach_diem);
-            $rs[$thoigian] = floor($average);
-        }
-        
-    }
-    $myJSON = json_encode($rs ?? '',JSON_UNESCAPED_UNICODE);
+    $myJSON = json_encode($kpi ?? '',JSON_UNESCAPED_UNICODE);
     echo $myJSON;
-
 }
 
 ?>
