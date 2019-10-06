@@ -13,7 +13,7 @@ function dataKPI(myObj) {
         }
         data.push({
             name: name,
-            data: dataPoint,
+            data: dataPoint
         });
     }
     return data;
@@ -69,14 +69,19 @@ function renderChartKPI(myObj) {
 
 /**
  *
- * @param {Object} data Bộ dữ liệu của đơn v
+ * @param {Object} myObj Bộ dữ liệu
+ * @param {String} department Tên của bộ phận được thống kê
+ * @param {String} time Mốc thời gian  
  *
  */
-function getAverageDepartment(data) {
-    let sum = data.reduce((acc, obj) => {
+function getAverageProject(myObj, department, time) {
+    let array = myObj.filter(obj => {
+        return obj.ten_don_vi == department && obj.thoigian == time;
+    })
+    let sum = array.reduce((acc, obj) => {
         return acc + Number(obj.diem)
     }, 0)
-    return Math.round(sum / data.length);
+    return Math.round(sum / array.length);
 }
 
 function groupBy(objectArray, property) {
@@ -91,7 +96,7 @@ function groupBy(objectArray, property) {
 }
 /**
  *
- * @param {Object} data Bộ dữ liệu nhom theo thoigian
+ * @param {Object} myObj Bộ dữ liệu
  * @param {Integer} point Mức tuân thủ quy trình 
  *
  */
@@ -103,15 +108,11 @@ function dataSeriesKPI(data, point) {
         let ProjectRate = Math.round(data[thoigian].filter(obj => {
             return obj.diem >= point
         }).length * 100 / data[thoigian].length)
-        dataPoint.push({
-            y: ProjectRate,
-            x: getDate(thoigian),
-            name: thoigian,
-        })
+        dataPoint.push([getDate(thoigian), ProjectRate])
     }
     rs.push({
         name: 'TCT',
-        data: dataPoint,
+        data: dataPoint
     })
     //Khối
     for (let index = 1; index <= 3; index++) {
@@ -123,51 +124,30 @@ function dataSeriesKPI(data, point) {
             ProjectRate = Math.round(data[thoigian].filter(obj => {
                 return (obj.diem >= point && obj.khoi == index)
             }).length * 100 / dataKhoi.length)
-            dataPoint.push({
-                y: ProjectRate,
-                x: getDate(thoigian),
-                name: thoigian,
-                drilldownName: index,
-                drilldown: true
-            })
+            dataPoint.push([getDate(thoigian), ProjectRate])
         }
         rs.push({
             name: `Khối ${index}`,
-            data: dataPoint,
+            data: dataPoint
         })
-    }
-    return rs;
-}
 
-function dataKhoiKPI(myObj, khoi) {
-    let dataPoint = [], rs = [], index = 0;
-    let data = myObj.filter(obj => {
-        return obj.khoi == khoi
-    })
-    data = groupBy(data, 'ten_don_vi')
-    for (const department in data) {
-        dataPoint = [];
-        let dataDepartment = groupBy(data[department], 'thoigian');
-        for (const thoigian in dataDepartment) {
-            dataPoint.push({
-                y: getAverageDepartment(dataDepartment[thoigian]),
-                x: getDate(thoigian),
-                name: thoigian,
-                drilldownName: department,
-                drilldown: true
-            })
-        }
-        rs.push({
-            name: department,
-            data: dataPoint,
-            color: Highcharts.getOptions().colors[index++],
-        })
     }
     return rs;
 }
 
 function renderChartKPI_TCT(myObj, title, subtitle) {
-    console.log(dataSeriesKPI(groupBy(myObj, 'thoigian'), 70))
+
+    // du lieu bieu do line 4 lop TCT->khoi->donvi->detai
+    let dataLine = [
+        [70, 70, 70],
+        [70, 70, 70],
+        [70, 70, 70],
+        [70, 70, 70]
+    ];
+    let index = 0;
+    let str;
+    let newTitle = title + ' (TCT)';
+    let drillupTitle = [title + ' (TCT)'];
     Highcharts.setOptions({
         //colors: ["#0275d8", "#5cb85c", "#f0ad4e", "#d9534f"],
         lang: {
@@ -175,6 +155,9 @@ function renderChartKPI_TCT(myObj, title, subtitle) {
         },
     });
     Highcharts.chart({
+        exporting: {
+            filename: newTitle.substring(newTitle.indexOf(":") + 2),
+        },
         chart: {
             renderTo: "chart_KPI_quytrinh",
             type: "line",
@@ -184,17 +167,46 @@ function renderChartKPI_TCT(myObj, title, subtitle) {
             },
             events: {
                 drilldown: function (e) {
-                    //str = e.seriesOptions;
-                    let department = e.point.drilldownName
-                    let series = dataKhoiKPI(myObj, department);
-                    let chart = this;
-                    series.forEach(seri => {
-                        chart.addSingleSeriesAsDrilldown(e.point, seri);
+                    str = e.seriesOptions.id;
+                    if (str.indexOf("DV") != -1) {
+                        index = 3;
+                        drillupTitle[index] = newTitle;
+                        newTitle = `PI<sub>0</sub>: Mức độ tuân thủ quy trình (${e.point.name})`
+                    } else if (str.indexOf("K") != -1) {
+                        index = 2;
+                        drillupTitle[index] = newTitle;
+                        newTitle = `PI<sub>0</sub>: Mức độ tuân thủ quy trình (${e.point.name})`
+                    }
+                    else if (str.indexOf("TCT") != -1) {
+                        index = 1;
+                        drillupTitle[index] = newTitle;
+                        newTitle = title + ` (${e.point.name})`
+                    }
+                    this.series[0].setData(dataLine[index]);
+                    this.setTitle({
+                        text: newTitle
                     });
-                    chart.applyDrilldown();
+                    this.options.exporting.filename = newTitle.substring(newTitle.indexOf(":") + 2);
                 },
                 drillup: function (e) {
-
+                    str = e.seriesOptions.id;
+                    if (str === undefined) {
+                        index = 0;
+                        newTitle = drillupTitle[index];
+                    }
+                    else if (str.indexOf("K") != -1) {
+                        index = 2;
+                        newTitle = drillupTitle[index];
+                    }
+                    else if (str.indexOf("TCT") != -1) {
+                        index = 1;
+                        newTitle = drillupTitle[index];
+                    }
+                    this.series[0].setData(dataLine[index]);
+                    this.setTitle({
+                        text: newTitle
+                    });
+                    this.options.exporting.filename = newTitle.substring(newTitle.indexOf(":") + 2);
                 }
             }
         },
@@ -222,6 +234,9 @@ function renderChartKPI_TCT(myObj, title, subtitle) {
             max: 100,
             allowDecimals: false,
             tickInterval: 20,
+            title: {
+                text: ""
+            },
             labels: {
                 formatter: function () {
                     return this.value + "%";
@@ -244,10 +259,12 @@ function renderChartKPI_TCT(myObj, title, subtitle) {
                     enabled: true,
                     format: '{point.y:.0f}%'
                 },
-                enableMouseTracking: true
+                enableMouseTracking: false
             }
         },
         series: dataSeriesKPI(groupBy(myObj, 'thoigian'), 70),
+        drilldown: {
+        },
         credits: false,
 
     });
