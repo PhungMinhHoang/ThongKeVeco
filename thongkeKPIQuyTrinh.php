@@ -79,34 +79,163 @@
             let myObj = JSON.parse(res);
             renderChartKPI_TCT(myObj, 'PI<sub>1</sub>: Tỷ lệ ĐT,DA đạt mức tuân thủ',null)
         });
-        let dataColumn2 = [
-                [82,78,88,0],
-                [76,71,100,50],
-				[84,64,100,100]
-            ],
-            dataColumn3 = [
-                [50,71,29,100],
-                [84,90,100,0],
-				[76,100,88,0]
-            ],
-            dataColumn4 = [
-                [7, 14, 0, 0],
-                [11, 20, 0, 0],
-				[14,11,0,50]
-            ];
-        dataColumn5 = [
-            [72,71,74,null],
-            [73,64,81,73],
-			[75,69,80,77]
-        ]
-        let dataLine2 = [80, 80, 80],
-            dataLine3 = [100, 100, 100],
-            dataLine4 = [3, 3, 3];
+        let Pi2 = [
+            {
+                name: 'TCT',
+                data: [
+                    [getDate('2019-07'),82],
+                    [getDate('2019-08'),84],
+                    [getDate('2019-09'),84],
+                    [getDate('2019-10'),84],
+                ]
+            },
+            {
+                name: 'Khối 1',
+                data: [
+                    [getDate('2019-07'),78],
+                    [getDate('2019-08'),71],
+                    [getDate('2019-09'),64],
+                    [getDate('2019-10'),64],
+                ]
+            },
+            {
+                name: 'Khối 2',
+                data: [
+                    [getDate('2019-07'),88],
+                    [getDate('2019-08'),100],
+                    [getDate('2019-09'),100],
+                    [getDate('2019-10'),100],
+                ]
+            },
+            {
+                name: 'Khối 3',
+                data: [
+                    [getDate('2019-07'),0],
+                    [getDate('2019-08'),100],
+                    [getDate('2019-09'),100],
+                    [getDate('2019-10'),100],
+                ]
+            }
+        ];
+        let Pi3 = [
+            {
+                name: 'TCT',
+                data: [
+                    [getDate('2019-07'),50],
+                    [getDate('2019-08'),76],
+                    [getDate('2019-09'),76],
+                    [getDate('2019-10'),76],
+                ]
+            },
+            {
+                name: 'Khối 1',
+                data: [
+                    [getDate('2019-07'),71],
+                    [getDate('2019-08'),90],
+                    [getDate('2019-09'),100],
+                    [getDate('2019-10'),100],
+                ]
+            },
+            {
+                name: 'Khối 2',
+                data: [
+                    [getDate('2019-07'),29],
+                    [getDate('2019-08'),100],
+                    [getDate('2019-09'),88],
+                    [getDate('2019-10'),88],
+                ]
+            },
+            {
+                name: 'Khối 3',
+                data: [
+                    [getDate('2019-07'),100],
+                    [getDate('2019-08'),0],
+                    [getDate('2019-09'),0],
+                    [getDate('2019-10'),0],
+                ]
+            }
+        ];
+        let Pi4 = [
+            {
+                name: 'TCT',
+                data: [
+                    [getDate('2019-07'),7],
+                    [getDate('2019-08'),10],
+                    [getDate('2019-09'),14],
+                    [getDate('2019-10'),14],
+                ]
+            },
+            {
+                name: 'Khối 1',
+                data: [
+                    [getDate('2019-07'),14],
+                    [getDate('2019-08'),20],
+                    [getDate('2019-09'),11],
+                    [getDate('2019-10'),11],
+                ]
+            },
+            {
+                name: 'Khối 2',
+                data: [
+                    [getDate('2019-07'),0],
+                    [getDate('2019-08'),0],
+                    [getDate('2019-09'),0],
+                    [getDate('2019-10'),0],
+                ]
+            },
+            {
+                name: 'Khối 3',
+                data: [
+                    [getDate('2019-07'),null],
+                    [getDate('2019-08'),0],
+                    [getDate('2019-09'),50],
+                    [getDate('2019-10'),50],
+                ]
+            }
+        ];
+        let Pi5 = [
+            {
+                name: 'TCT',
+                data: [
+                    [getDate('2019-07'),72],
+                    [getDate('2019-08'),73],
+                    [getDate('2019-09'),75],
+                    [getDate('2019-10'),75],
+                ]
+            },
+            {
+                name: 'Khối 1',
+                data: [
+                    [getDate('2019-07'),71],
+                    [getDate('2019-08'),64],
+                    [getDate('2019-09'),69],
+                    [getDate('2019-10'),69],
+                ]
+            },
+            {
+                name: 'Khối 2',
+                data: [
+                    [getDate('2019-07'),74],
+                    [getDate('2019-08'),81],
+                    [getDate('2019-09'),80],
+                    [getDate('2019-10'),80],
+                ]
+            },
+            {
+                name: 'Khối 3',
+                data: [
+                    [getDate('2019-07'),null],
+                    [getDate('2019-08'),73],
+                    [getDate('2019-09'),77],
+                    [getDate('2019-10'),77],
+                ]
+            }
+        ];
 
-        renderChart('chart_2', dataColumn2, dataLine2, '<a href="quytrinh.php"><div title="TỶ LỆ CÁC ĐỀ TÀI,DỰ ÁN ĐƯỢC ĐÁNH GIÁ">PI<sub>2</sub>: Tỷ lệ ĐT,DA được đánh giá</div></a>');
-        renderChart('chart_3', dataColumn3, dataLine3, '<a href="quytrinh.php"><div title="TỶ LỆ CÁC ĐỀ TÀI,DỰ ÁN ĐƯỢC AUDIT">PI<sub>3</sub>: Tỷ lệ ĐT,DA được audit</div></a>');
-        renderChart('chart_4', dataColumn4, dataLine4, '<a href="quytrinh.php"><div title="TỶ LỆ CÁC ĐỀ TÀI,DỰ ÁN TUÂN THỦ QUY TRÌNH Ở MỨC THẤP">PI<sub>4</sub>: Tỷ lệ ĐT,DA có mức tuân thủ thấp</div></a>');
-        renderChart('chart_5', dataColumn5, null, '<a href="quytrinh.php"><div title="MỨC ĐỘ TUÂN THỦ TRUNG BÌNH">PI<sub>5</sub>: Mức độ ĐT,DA tuân thủ trung bình</div></a>');
+        renderChart('chart_2', Pi2, '<a href="quytrinh.php"><div>PI<sub>2</sub>: Tỷ lệ ĐT,DA được đánh giá (TCT)</div></a>');
+        renderChart('chart_3', Pi3, '<a href="quytrinh.php"><div>PI<sub>3</sub>: Tỷ lệ ĐT,DA được audit (TCT)</div></a>');
+        renderChart('chart_4', Pi4, '<a href="quytrinh.php"><div>PI<sub>4</sub>: Tỷ lệ ĐT,DA có mức tuân thủ thấp (TCT)</div></a>');
+        renderChart('chart_5', Pi5, '<a href="quytrinh.php"><div>PI<sub>5</sub>: Mức độ ĐT,DA tuân thủ trung bình (TCT)</div></a>');
     </script>
 
 </body>

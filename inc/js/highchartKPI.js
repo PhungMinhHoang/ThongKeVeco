@@ -165,9 +165,36 @@ function dataKhoiKPI(myObj, khoi) {
     }
     return rs;
 }
+function dataDepartmentKPI(myObj, department) {
+    let dataPoint = [], rs = [], index = 0;
+    let data = myObj.filter(obj => {
+        return obj.ten_don_vi == department
+    })
+    data = groupBy(data, 'ten_du_an')
+    console.log(data)
+    for (const project in data) {
+        dataPoint = [];
+        let dataProject = groupBy(data[project], 'thoigian');
+        for (const thoigian in dataProject) {
+            dataPoint.push({
+                y: Number(dataProject[thoigian][0].diem),
+                x: getDate(thoigian),
+                name: thoigian,
+            })
+        }
+        rs.push({
+            name: project,
+            data: dataPoint,
+            color: Highcharts.getOptions().colors[index++],
+        })
+    }
+    return rs;
+}
 
 function renderChartKPI_TCT(myObj, title, subtitle) {
-    console.log(dataSeriesKPI(groupBy(myObj, 'thoigian'), 70))
+    let drilldownLevel = 0;
+    let newTitle = title + ' (TCT)';
+    let drillupTitle = [title + ' (TCT)'];
     Highcharts.setOptions({
         //colors: ["#0275d8", "#5cb85c", "#f0ad4e", "#d9534f"],
         lang: {
@@ -184,17 +211,45 @@ function renderChartKPI_TCT(myObj, title, subtitle) {
             },
             events: {
                 drilldown: function (e) {
-                    //str = e.seriesOptions;
-                    let department = e.point.drilldownName
-                    let series = dataKhoiKPI(myObj, department);
+                    drilldownLevel++;
+                    let series, khoi, department;
                     let chart = this;
+                    //str = e.seriesOptions;
+                    if (drilldownLevel == 1) {
+                        khoi = e.point.drilldownName;
+                        series = dataKhoiKPI(myObj, khoi);
+                        newTitle = `PI<sub>1</sub>: Tỷ lệ ĐT,DA đạt mức tuân thủ (Khối ${khoi})`
+                        drillupTitle[drilldownLevel] = newTitle;
+                    }
+                    else if (drilldownLevel == 2) {
+                        department = e.point.drilldownName;
+                        series = dataDepartmentKPI(myObj, department);
+                        newTitle = `PI<sub>0</sub>: Mức độ tuân thủ quy trình (${department})`
+                        drillupTitle[drilldownLevel] = newTitle;
+                    }
                     series.forEach(seri => {
                         chart.addSingleSeriesAsDrilldown(e.point, seri);
                     });
                     chart.applyDrilldown();
+                    this.setTitle({
+                        text: newTitle
+                    });
+                    console.log('drilldown',drilldownLevel,drillupTitle)
                 },
                 drillup: function (e) {
-
+                    str = e.seriesOptions.name;
+                    if (str.indexOf("Khối") != -1) {
+                        drilldownLevel = 0;
+                        newTitle = drillupTitle[drilldownLevel];
+                    }
+                    else {
+                        drilldownLevel = 1;
+                        newTitle = drillupTitle[drilldownLevel];
+                    }
+                    this.setTitle({
+                        text: newTitle
+                    });
+                    //console.log('up',drilldownLevel);
                 }
             }
         },
@@ -218,10 +273,10 @@ function renderChartKPI_TCT(myObj, title, subtitle) {
             }
         },
         yAxis: {
-            min: 0,
-            max: 100,
+            //min: 0,
+            //max: 100,
             allowDecimals: false,
-            tickInterval: 20,
+            //tickInterval: 20,
             labels: {
                 formatter: function () {
                     return this.value + "%";
