@@ -87,7 +87,7 @@
                     [getDate('2019-08'),84],
                     [getDate('2019-09'),84],
                     [getDate('2019-10'),84],
-                ]
+                ],
             },
             {
                 name: 'Khối 1',
@@ -96,7 +96,7 @@
                     [getDate('2019-08'),71],
                     [getDate('2019-09'),64],
                     [getDate('2019-10'),64],
-                ]
+                ],
             },
             {
                 name: 'Khối 2',
@@ -105,7 +105,7 @@
                     [getDate('2019-08'),100],
                     [getDate('2019-09'),100],
                     [getDate('2019-10'),100],
-                ]
+                ],
             },
             {
                 name: 'Khối 3',
@@ -114,8 +114,18 @@
                     [getDate('2019-08'),100],
                     [getDate('2019-09'),100],
                     [getDate('2019-10'),100],
-                ]
-            }
+                ],
+            },
+            {
+                name: 'Mục tiêu',
+                data: [
+                    [getDate('2019-07'),80],
+                    [getDate('2019-08'),80],
+                    [getDate('2019-09'),80],
+                    [getDate('2019-10'),80],
+                ],
+                color: '#000'
+            },
         ];
         let Pi3 = [
             {
@@ -153,7 +163,17 @@
                     [getDate('2019-09'),0],
                     [getDate('2019-10'),0],
                 ]
-            }
+            },
+            {
+                name: 'Mục tiêu',
+                data: [
+                    [getDate('2019-07'),100],
+                    [getDate('2019-08'),100],
+                    [getDate('2019-09'),100],
+                    [getDate('2019-10'),100],
+                ],
+                color: '#000'
+            },
         ];
         let Pi4 = [
             {
@@ -191,7 +211,17 @@
                     [getDate('2019-09'),50],
                     [getDate('2019-10'),50],
                 ]
-            }
+            },
+            {
+                name: 'Mục tiêu',
+                data: [
+                    [getDate('2019-07'),3],
+                    [getDate('2019-08'),3],
+                    [getDate('2019-09'),3],
+                    [getDate('2019-10'),3],
+                ],
+                color: '#000'
+            },
         ];
         let Pi5 = [
             {
@@ -231,7 +261,6 @@
                 ]
             }
         ];
-
         renderChart('chart_2', Pi2, '<a href="quytrinh.php"><div>PI<sub>2</sub>: Tỷ lệ ĐT,DA được đánh giá (TCT)</div></a>');
         renderChart('chart_3', Pi3, '<a href="quytrinh.php"><div>PI<sub>3</sub>: Tỷ lệ ĐT,DA được audit (TCT)</div></a>');
         renderChart('chart_4', Pi4, '<a href="quytrinh.php"><div>PI<sub>4</sub>: Tỷ lệ ĐT,DA có mức tuân thủ thấp (TCT)</div></a>');

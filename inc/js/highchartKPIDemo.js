@@ -1,6 +1,6 @@
 function renderChart(chart,dataSeries,title){
     Highcharts.setOptions({
-        //colors: ["#0275d8", "#5cb85c", "#f0ad4e", "#d9534f"],
+        colors: ["#0275d8", "#5cb85c", "#f0ad4e", "#d9534f"],
         lang: {
             drillUpText: 'Back'
         },
@@ -34,6 +34,9 @@ function renderChart(chart,dataSeries,title){
             //max: 100,
             allowDecimals: false,
             //tickInterval: 20,
+			title:{
+				text:""
+			},
             labels: {
                 formatter: function () {
                     return this.value + "%";

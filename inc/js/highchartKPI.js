@@ -96,7 +96,7 @@ function groupBy(objectArray, property) {
  *
  */
 function dataSeriesKPI(data, point) {
-    let dataPoint = [];
+    let dataPoint = [],index = 0;
     let rs = [];
     //TCT
     for (const thoigian in data) {
@@ -114,37 +114,51 @@ function dataSeriesKPI(data, point) {
         data: dataPoint,
     })
     //Khối
-    for (let index = 1; index <= 3; index++) {
+    for (let khoi = 1; khoi <= 3; khoi++) {
         dataPoint = [];
         for (const thoigian in data) {
             let dataKhoi = data[thoigian].filter(obj => {
-                return obj.khoi == index
+                return obj.khoi == khoi
             })
             ProjectRate = Math.round(data[thoigian].filter(obj => {
-                return (obj.diem >= point && obj.khoi == index)
+                return (obj.diem >= point && obj.khoi == khoi)
             }).length * 100 / dataKhoi.length)
             dataPoint.push({
                 y: ProjectRate,
                 x: getDate(thoigian),
                 name: thoigian,
-                drilldownName: index,
-                drilldown: true
+                drilldownName: khoi,
+                drilldown: true,
             })
         }
         rs.push({
-            name: `Khối ${index}`,
+            name: `Khối ${khoi}`,
             data: dataPoint,
         })
     }
+    //Mục tiêu
+    dataPoint = [];
+    for (const thoigian in data) {
+        dataPoint.push({
+            y: 70,
+            x: getDate(thoigian),
+            name: thoigian,
+        })
+    }
+    rs.push({
+        name: 'Mục tiêu',
+        data: dataPoint,
+        color: '#000',
+    })
     return rs;
 }
 
 function dataKhoiKPI(myObj, khoi) {
     let dataPoint = [], rs = [], index = 0;
-    let data = myObj.filter(obj => {
+    let filterKhoi = myObj.filter(obj => {
         return obj.khoi == khoi
     })
-    data = groupBy(data, 'ten_don_vi')
+    data = groupBy(filterKhoi, 'ten_don_vi')
     for (const department in data) {
         dataPoint = [];
         let dataDepartment = groupBy(data[department], 'thoigian');
@@ -163,15 +177,29 @@ function dataKhoiKPI(myObj, khoi) {
             color: Highcharts.getOptions().colors[index++],
         })
     }
+
+    //Mục tiêu
+    dataPoint = [];
+    for (const thoigian in groupBy(filterKhoi,'thoigian')) {
+        dataPoint.push({
+            y: 70,
+            x: getDate(thoigian),
+            name: thoigian,
+        })
+    }
+    rs.push({
+        name: 'Mục tiêu',
+        data: dataPoint,
+        color: '#000',
+    })
     return rs;
 }
 function dataDepartmentKPI(myObj, department) {
     let dataPoint = [], rs = [], index = 0;
-    let data = myObj.filter(obj => {
+    let filterDepartment = myObj.filter(obj => {
         return obj.ten_don_vi == department
     })
-    data = groupBy(data, 'ten_du_an')
-    console.log(data)
+    let data = groupBy(filterDepartment, 'ten_du_an')
     for (const project in data) {
         dataPoint = [];
         let dataProject = groupBy(data[project], 'thoigian');
@@ -188,6 +216,20 @@ function dataDepartmentKPI(myObj, department) {
             color: Highcharts.getOptions().colors[index++],
         })
     }
+    //Mục tiêu
+    dataPoint = [];
+    for (const thoigian in groupBy(filterDepartment,'thoigian')) {
+        dataPoint.push({
+            y: 70,
+            x: getDate(thoigian),
+            name: thoigian,
+        })
+    }
+    rs.push({
+        name: 'Mục tiêu',
+        data: dataPoint,
+        color: '#000',
+    })
     return rs;
 }
 
@@ -196,7 +238,7 @@ function renderChartKPI_TCT(myObj, title, subtitle) {
     let newTitle = title + ' (TCT)';
     let drillupTitle = [title + ' (TCT)'];
     Highcharts.setOptions({
-        //colors: ["#0275d8", "#5cb85c", "#f0ad4e", "#d9534f"],
+        colors: ["#0275d8", "#5cb85c", "#f0ad4e", "#d9534f"],
         lang: {
             drillUpText: 'Back'
         },
@@ -234,7 +276,7 @@ function renderChartKPI_TCT(myObj, title, subtitle) {
                     this.setTitle({
                         text: newTitle
                     });
-                    console.log('drilldown',drilldownLevel,drillupTitle)
+                    console.log('drilldown', drilldownLevel, drillupTitle)
                 },
                 drillup: function (e) {
                     str = e.seriesOptions.name;
@@ -273,6 +315,9 @@ function renderChartKPI_TCT(myObj, title, subtitle) {
             }
         },
         yAxis: {
+            title: {
+                text: ""
+            },
             //min: 0,
             //max: 100,
             allowDecimals: false,
