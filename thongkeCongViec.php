@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +11,11 @@
     <link rel="stylesheet" href="./inc/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="./inc/bootstrap/bootstrap-grid.min.css">
     <!-- css -->
-    <link rel="stylesheet" href="./inc/css/main.css"> 
-    <link rel="stylesheet" href="./inc/css/fontawesome-free-5.9.0-web/css/all.css"> 
-    
+    <link rel="stylesheet" href="./inc/css/main.css">
+    <link rel="stylesheet" href="./inc/css/fontawesome-free-5.9.0-web/css/all.css">
+
 </head>
+
 <body>
     <header>
         <img src="./inc/img/logo.png" width="90px" height="90px">
@@ -32,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-xl-6 col-lg-12 ">
                 <div class="content">
                     <div id="chart_3" class="ct-chart"></div>
@@ -41,6 +43,18 @@
             <div class="col-xl-6 col-lg-12 ">
                 <div class="content">
                     <div id="chart_4" class="ct-chart"></div>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-xl-6 col-lg-12 ">
+                <div class="content">
+                    <div id="chart_5" class="ct-chart"></div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-12 ">
+                <div class="content">
+                    <div id="chart_6" class="ct-chart"></div>
                 </div>
             </div>
         </div>
@@ -60,15 +74,25 @@
     <script src="inc/js/myFunction.js"></script>
     <script src="inc/js/highchart.js"></script>
     <script>
-        $.get( "./json/json.php", function(res) {
+        $.get("./json/json.php", function(res) {
             let myObj = JSON.parse(res);
-            renderChart(myObj,'chart_1',tuy_chon_1,'Tổng quan công việc trên Veco ');
-            renderChart(myObj,'chart_2',tuy_chon_2,'Tình hình thực hiện công việc ');
-            renderChart3(myObj,'chart_3',tuy_chon_4,'Tổng số công việc cần hoàn thành trong tháng ');
-            renderChart4(myObj,'chart_4',tuy_chon_5,'Thống kê % việc hoàn thành chậm trong tháng ');
-        }); 
-    
+            renderChart(myObj, 'chart_1', tuy_chon_1, 'Tổng quan công việc trên Veco ');
+            renderChart(myObj, 'chart_2', tuy_chon_2, 'Tình hình thực hiện công việc ');
+            renderChart3(myObj, 'chart_3', tuy_chon_4, 'Tổng số công việc cần hoàn thành trong tháng theo dự án trên Veco ');
+            renderChart4(myObj, 'chart_4', tuy_chon_5, 'Thống kê % việc hoàn thành chậm trong tháng theo dự án trên Veco ');
+        });
+        let department;
+        $.get("./json/jsonDepartment.php", function(res) {
+            department = JSON.parse(res);
+        });
+        $.get("./json/jsonVHTReport.php", function(res) {
+            let myObj = JSON.parse(res);
+            console.log(department)
+            renderChart5(myObj,department, 'chart_5', 'Tổng số công việc cần hoàn thành trong tháng theo đơn vị ');
+            renderChart6(myObj,department, 'chart_6', 'Thống kê % việc chưa hoàn thành trong tháng theo đơn vị ');
+        });
     </script>
-    
+
 </body>
+
 </html>

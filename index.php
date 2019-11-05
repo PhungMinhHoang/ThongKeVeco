@@ -33,7 +33,9 @@
             <div class="col-xl-6 col-lg-12 ">
                 <div class="content">
                     <div id="chart_KPI_quytrinh" class="ct-chart"></div>
-                    <img src="./inc/img/PI1.png" alt="" style="height: 30px; margin: 0;">
+                    <div id="description">
+                        <img src="./inc/img/PI1.png" alt="" style="height: 30px; margin: 0;">
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,7 +90,7 @@
 
         $.get("./json/jsonVoffice.php", function(res) {
             let myObj = JSON.parse(res);
-            renderChartVoffice(myObj, 'chart_Voffice', 5, `Văn bản ký Voffice TCT tháng ${m}`,'<a href="thongkeVoffice.php"><small>(Xem thêm)</small></a>', 'column', null);
+            renderChartVoffice(myObj, 'chart_Voffice', 5, `Văn bản ký Voffice TCT tháng ${m}`, '<a href="thongkeVoffice.php"><small>(Xem thêm)</small></a>', 'column', null);
         });
 
         $.get("./json/jsonVeco.php", function(res) {

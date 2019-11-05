@@ -130,10 +130,7 @@ if(isset($_POST['submit'])){
 				//Insert to database
                 $diem = $data[$i][1];
                 //var_dump($diem);
-                if($diem != 'N/A') $diem = $diem*100;
-                else{
-                    $diem = 'NULL';
-                }
+                $diem = $diem*100;
                 $thoigian = $data[$i][2];
 				$query="INSERT INTO `kpi_quytrinh`( `quy_trinh_id`, `du_an_id`, `diem`, `thoigian`) VALUES ($quy_trinh_id,$du_an_id,$diem,'$thoigian')";
 				$statement = $db->prepare($query);

@@ -1,4 +1,30 @@
-function renderChart(chart,dataSeries,title){
+
+function getData(data, department) {
+    let rs = [];
+    data.forEach(element => {
+        rs.push([getDate(element.thoigian), parseInt(element[department])])
+    });
+    return rs;
+}
+
+function dataSeries(myObj, pi) {
+    let data = myObj[pi];
+    return [{
+        name: 'TCT',
+        data: getData(data, 'TCT')
+    }, {
+        name: 'Khối 1,',
+        data: getData(data, 'K1')
+    }, {
+        name: 'Khối 2',
+        data: getData(data, 'K2')
+    }, {
+        name: 'Khối 3',
+        data: getData(data, 'K3')
+    }]
+
+}
+function renderChart(myObj, chart, pi, title) {
     Highcharts.setOptions({
         colors: ["#0275d8", "#5cb85c", "#f0ad4e", "#d9534f"],
         lang: {
@@ -34,9 +60,9 @@ function renderChart(chart,dataSeries,title){
             //max: 100,
             allowDecimals: false,
             //tickInterval: 20,
-			title:{
-				text:""
-			},
+            title: {
+                text: ""
+            },
             labels: {
                 formatter: function () {
                     return this.value + "%";
@@ -62,7 +88,7 @@ function renderChart(chart,dataSeries,title){
                 enableMouseTracking: true
             }
         },
-        series: dataSeries,
+        series: dataSeries(myObj, pi),
         credits: false,
 
     });

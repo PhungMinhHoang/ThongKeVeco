@@ -62,25 +62,25 @@ function getChiSoDonVi(myObj, khoi, ten_don_vi, ten_tuy_chon, thoi_gian) {
 function dataDonVi(myObj, khoi, type) {
     let data = [];
     let filter = myObj[khoi].filter((donvi) => {
-            if (type === 'khong_cap_nhat_tuan_truoc') {
-                return (donvi.thoi_gian == w - 1);
-            }
-            else if (type === 'khong_cap_nhat') {
-                return (donvi.thoi_gian == w);
-            }
-            else if (type === 'viec_duoc_giao_thang_truoc') {
-                return (donvi.thoi_gian == m - 1 && donvi.ten_tuy_chon == 'viec_duoc_giao_thang')
-            }
-            else if (type === 'viec_duoc_giao_thang') {
-                return (donvi.thoi_gian == m && donvi.ten_tuy_chon == 'viec_duoc_giao_thang')
-            }
-            else if (type === 'viec_hoan_thanh_khong_dung_han_thang_truoc') {
-                return (donvi.thoi_gian == m - 1 && donvi.ten_tuy_chon == 'viec_hoan_thanh_khong_dung_han_thang')
-            }
-            else if (type === 'viec_hoan_thanh_khong_dung_han_thang') {
-                return (donvi.thoi_gian == m && donvi.ten_tuy_chon == 'viec_hoan_thanh_khong_dung_han_thang')
-            }
-            return (donvi.ten_tuy_chon == type);
+        if (type === 'khong_cap_nhat_tuan_truoc') {
+            return (donvi.thoi_gian == w - 1);
+        }
+        else if (type === 'khong_cap_nhat') {
+            return (donvi.thoi_gian == w);
+        }
+        else if (type === 'viec_duoc_giao_thang_truoc') {
+            return (donvi.thoi_gian == m - 1 && donvi.ten_tuy_chon == 'viec_duoc_giao_thang')
+        }
+        else if (type === 'viec_duoc_giao_thang') {
+            return (donvi.thoi_gian == m && donvi.ten_tuy_chon == 'viec_duoc_giao_thang')
+        }
+        else if (type === 'viec_hoan_thanh_khong_dung_han_thang_truoc') {
+            return (donvi.thoi_gian == m - 1 && donvi.ten_tuy_chon == 'viec_hoan_thanh_khong_dung_han_thang')
+        }
+        else if (type === 'viec_hoan_thanh_khong_dung_han_thang') {
+            return (donvi.thoi_gian == m && donvi.ten_tuy_chon == 'viec_hoan_thanh_khong_dung_han_thang')
+        }
+        return (donvi.ten_tuy_chon == type);
     })
     for (let donvi of filter) {
         if (type === 'viec_hoan_thanh_khong_dung_han_thang_truoc' || type === 'viec_hoan_thanh_khong_dung_han_thang')
@@ -93,6 +93,11 @@ function dataDonVi(myObj, khoi, type) {
 
 function dataTCT(myObj, type) {
     let data = [
+        {
+            name: 'Khối cơ quan',
+            y: dataKhoi(myObj, 4, type),
+            drilldown: type + '_4'
+        },
         {
             name: 'Khối 1',
             y: dataKhoi(myObj, 1, type),
@@ -108,11 +113,7 @@ function dataTCT(myObj, type) {
             y: dataKhoi(myObj, 3, type),
             drilldown: type + '_3'
         },
-        {
-            name: 'Khối cơ quan',
-            y: dataKhoi(myObj, 4, type),
-            drilldown: type + '_4'
-        },
+
     ]
     return data
 }
@@ -434,3 +435,124 @@ function dataDrilldownStack(myObj, types) {
     return data;
 }
 
+//Chart5//
+function dataDepartmentChart5(myObj, parent, tuy_chon, thang) {
+    let data = myObj.filter(e => {
+        return e.parent == parent && e.tuy_chon == tuy_chon && e.thang == thang;
+    })
+    let rs = [];
+    data.forEach(e => {
+        if (e.parent != 'Khối cơ quan' && e.level < 4) {
+            rs.push({
+                name: e.ten_don_vi,
+                y: parseInt(e.data),
+                drilldown: e.parent + '-' + e.ten_don_vi + '-' + thang
+            })
+        }
+        else {
+            rs.push({
+                name: e.ten_don_vi,
+                y: parseInt(e.data),
+            })
+        }
+
+    });
+    return rs;
+}
+
+function dataSeriesChart5(myObj) {
+    return [
+        {
+            name: `Tổng số việc cần hoàn thành trong tháng ${m - 1}`,
+            data: dataDepartmentChart5(myObj, 'Tổng Công Ty', 'tong-so-viec-can-hoan-thanh-trong-thang', m - 1),
+            color: '#0275d8'
+        },
+        {
+            name: `Tổng số việc cần hoàn thành trong tháng ${m}`,
+            data: dataDepartmentChart5(myObj, 'Tổng Công Ty', 'tong-so-viec-can-hoan-thanh-trong-thang', m),
+            color: '#5cb85c'
+        }
+    ]
+}
+function dataDrillDownChart5(myObj, department) {
+    let rs = [];
+    department.forEach(dv => {
+        if (dv.parent != 'Khối cơ quan' && dv.level < 4) {
+            rs.push({
+                name: `Tổng số việc cần hoàn thành trong tháng ${m - 1}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m - 1}`,
+                data: dataDepartmentChart5(myObj, dv.ten_don_vi, 'tong-so-viec-can-hoan-thanh-trong-thang', m - 1)
+            })
+            rs.push({
+                name: `Tổng số việc cần hoàn thành trong tháng ${m}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m}`,
+                data: dataDepartmentChart5(myObj, dv.ten_don_vi, 'tong-so-viec-can-hoan-thanh-trong-thang', m)
+            })
+        }
+
+    })
+    return rs;
+}
+
+//Chart6//
+function dataDepartmentChart6(myObj, parent, tuy_chon, thang) {
+    let data = myObj.filter(e => {
+        return e.parent == parent && e.tuy_chon == tuy_chon && e.thang == thang;
+    })
+    let rs = [];
+    data.forEach(e => {
+        let sum = myObj.find(element => {
+            return element.ten_don_vi == e.ten_don_vi && element.parent == e.parent && element.thang == e.thang && element.tuy_chon == 'tong-so-viec-can-hoan-thanh-trong-thang'
+        }).data;
+        
+        if (e.parent != 'Khối cơ quan' && e.level < 4) {
+            rs.push({
+                name: e.ten_don_vi,
+                y: parseInt(e.data) / parseInt(sum) * 100,
+                drilldown: e.parent + '-' + e.ten_don_vi + '-' + thang
+            })
+        }
+        else {
+            rs.push({
+                name: e.ten_don_vi,
+                y: parseInt(e.data) / parseInt(sum) * 100,
+            })
+        }
+
+    });
+    return rs;
+}
+
+function dataSeriesChart6(myObj) {
+    return [
+        {
+            name: `Tổng số việc quá hạn chưa hoàn thành tháng ${m - 1}`,
+            data: dataDepartmentChart6(myObj, 'Tổng Công Ty', 'viec-cham-chua-hoan-thanh', m - 1),
+            color: '#FFA500'
+        },
+        {
+            name: `Tổng số việc quá hạn chưa hoàn thành tháng ${m}`,
+            data: dataDepartmentChart6(myObj, 'Tổng Công Ty', 'viec-cham-chua-hoan-thanh', m),
+            color: '#a94442'
+        }
+    ]
+}
+function dataDrillDownChart6(myObj, department) {
+    let rs = [];
+    department.forEach(dv => {
+        if (dv.parent != 'Khối cơ quan' && dv.level < 4) {
+            rs.push({
+                name: `Tổng số việc quá hạn chưa hoàn thành tháng ${m - 1}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m - 1}`,
+                data: dataDepartmentChart6(myObj, dv.ten_don_vi, 'viec-cham-chua-hoan-thanh', m - 1)
+            })
+            rs.push({
+                name: `Tổng số việc quá hạn chưa hoàn thành tháng ${m}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m}`,
+                data: dataDepartmentChart6(myObj, dv.ten_don_vi, 'viec-cham-chua-hoan-thanh', m)
+            })
+        }
+
+    })
+    return rs;
+}

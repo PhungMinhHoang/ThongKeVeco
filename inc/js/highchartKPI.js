@@ -96,7 +96,7 @@ function groupBy(objectArray, property) {
  *
  */
 function dataSeriesKPI(data, point) {
-    let dataPoint = [],index = 0;
+    let dataPoint = [], index = 0;
     let rs = [];
     //TCT
     for (const thoigian in data) {
@@ -180,7 +180,7 @@ function dataKhoiKPI(myObj, khoi) {
 
     //Mục tiêu
     dataPoint = [];
-    for (const thoigian in groupBy(filterKhoi,'thoigian')) {
+    for (const thoigian in groupBy(filterKhoi, 'thoigian')) {
         dataPoint.push({
             y: 70,
             x: getDate(thoigian),
@@ -218,7 +218,7 @@ function dataDepartmentKPI(myObj, department) {
     }
     //Mục tiêu
     dataPoint = [];
-    for (const thoigian in groupBy(filterDepartment,'thoigian')) {
+    for (const thoigian in groupBy(filterDepartment, 'thoigian')) {
         dataPoint.push({
             y: 70,
             x: getDate(thoigian),
@@ -266,8 +266,10 @@ function renderChartKPI_TCT(myObj, title, subtitle) {
                     else if (drilldownLevel == 2) {
                         department = e.point.drilldownName;
                         series = dataDepartmentKPI(myObj, department);
-                        newTitle = `PI<sub>0</sub>: Mức độ tuân thủ quy trình (${department})`
+                        newTitle = `PI<sub>5</sub>: Mức độ tuân thủ quy trình (${department})`
                         drillupTitle[drilldownLevel] = newTitle;
+                        console.log($("#description"))
+                        $("#description").html(`<img src="./inc/img/PI5.png" alt="" style="height: 30px;margin: 0;">`)
                     }
                     series.forEach(seri => {
                         chart.addSingleSeriesAsDrilldown(e.point, seri);
@@ -276,7 +278,7 @@ function renderChartKPI_TCT(myObj, title, subtitle) {
                     this.setTitle({
                         text: newTitle
                     });
-                    console.log('drilldown', drilldownLevel, drillupTitle)
+                    //console.log('drilldown', drilldownLevel, drillupTitle)
                 },
                 drillup: function (e) {
                     str = e.seriesOptions.name;
@@ -287,6 +289,7 @@ function renderChartKPI_TCT(myObj, title, subtitle) {
                     else {
                         drilldownLevel = 1;
                         newTitle = drillupTitle[drilldownLevel];
+                        $("#description").html(`<img src="./inc/img/PI1.png" alt="" style="height: 30px;margin: 0;">`)
                     }
                     this.setTitle({
                         text: newTitle

@@ -7,9 +7,9 @@ let tuy_chon_3 = ['nhiem-vu-TGD-giao', 'nhiem-vu-PTGD-giao'];
 function renderChart(myObj, chart, types, title, subtitle) {
     Highcharts.setOptions({
         colors: ['#058DC7', '#ED561B', '#50B432', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
-		lang: {
-			drillUpText: 'Back'
-		}
+        lang: {
+            drillUpText: 'Back'
+        }
     });
     Highcharts.chart({
         chart: {
@@ -19,41 +19,41 @@ function renderChart(myObj, chart, types, title, subtitle) {
             style: {
                 fontFamily: 'Arial'
             },
-			events: {
-				drilldown: function (e) {
-					//console.log(e)
-					let str = e.seriesOptions.id;
-					//console.log(str);
-					if (str.indexOf("1") != -1) {
-						str = '(Khối 1)'
-					}
-					else if (str.indexOf("2") != -1) {
-						str = '(Khối 2)'
-					}
-					else if (str.indexOf("3") != -1) {
-						str = '(Khối 3)'
-					}
-					else if (str.indexOf("4") != -1) {
-						str = '(Khối cơ quan)'
-					}
-					this.setTitle({
-						text: title+str
-					});
-				},
-				drillup: function (e) {
-					this.setTitle({
-						text: title+'(TCT)'
-					});
-				}
-			},
+            events: {
+                drilldown: function (e) {
+                    //console.log(e)
+                    let str = e.seriesOptions.id;
+                    //console.log(str);
+                    if (str.indexOf("1") != -1) {
+                        str = '(Khối 1)'
+                    }
+                    else if (str.indexOf("2") != -1) {
+                        str = '(Khối 2)'
+                    }
+                    else if (str.indexOf("3") != -1) {
+                        str = '(Khối 3)'
+                    }
+                    else if (str.indexOf("4") != -1) {
+                        str = '(Khối cơ quan)'
+                    }
+                    this.setTitle({
+                        text: title + str
+                    });
+                },
+                drillup: function (e) {
+                    this.setTitle({
+                        text: title + '(TCT)'
+                    });
+                }
+            },
         },
         title: {
-            text: title+'(TCT)',
+            text: title + '(TCT)',
             useHTML: true
         },
         subtitle: {
             text: subtitle,
-			useHTML: true
+            useHTML: true
         },
         xAxis: {
             type: 'category',
@@ -107,36 +107,36 @@ function renderChart3(myObj, chart, types, title) {
             style: {
                 fontFamily: 'Arial'
             },
-			events: {
-				drilldown: function (e) {
-					//console.log(e)
-					let str = e.seriesOptions.id;
-					//console.log(str);
-					if (str.indexOf("1") != -1) {
-						str = '(Khối 1)'
-					}
-					else if (str.indexOf("2") != -1) {
-						str = '(Khối 2)'
-					}
-					else if (str.indexOf("3") != -1) {
-						str = '(Khối 3)'
-					}
-					else if (str.indexOf("4") != -1) {
-						str = '(Khối cơ quan)'
-					}
-					this.setTitle({
-						text: title+str
-					});
-				},
-				drillup: function (e) {
-					this.setTitle({
-						text: title+'(TCT)'
-					});
-				}
-			},
+            events: {
+                drilldown: function (e) {
+                    //console.log(e)
+                    let str = e.seriesOptions.id;
+                    //console.log(str);
+                    if (str.indexOf("1") != -1) {
+                        str = '(Khối 1)'
+                    }
+                    else if (str.indexOf("2") != -1) {
+                        str = '(Khối 2)'
+                    }
+                    else if (str.indexOf("3") != -1) {
+                        str = '(Khối 3)'
+                    }
+                    else if (str.indexOf("4") != -1) {
+                        str = '(Khối cơ quan)'
+                    }
+                    this.setTitle({
+                        text: title + str
+                    });
+                },
+                drillup: function (e) {
+                    this.setTitle({
+                        text: title + '(TCT)'
+                    });
+                }
+            },
         },
         title: {
-            text: title+'(TCT)',
+            text: title + '(TCT)',
             useHTML: true
         },
         subtitle: {
@@ -197,36 +197,36 @@ function renderChart4(myObj, chart, types, title) {
             style: {
                 fontFamily: 'Arial'
             },
-			events: {
-				drilldown: function (e) {
-					//console.log(e)
-					let str = e.seriesOptions.id;
-					//console.log(str);
-					if (str.indexOf("1") != -1) {
-						str = '(Khối 1)'
-					}
-					else if (str.indexOf("2") != -1) {
-						str = '(Khối 2)'
-					}
-					else if (str.indexOf("3") != -1) {
-						str = '(Khối 3)'
-					}
-					else if (str.indexOf("4") != -1) {
-						str = '(Khối cơ quan)'
-					}
-					this.setTitle({
-						text: title+str
-					});
-				},
-				drillup: function (e) {
-					this.setTitle({
-						text: title+'(TCT)'
-					});
-				}
-			},
+            events: {
+                drilldown: function (e) {
+                    //console.log(e)
+                    let str = e.seriesOptions.id;
+                    //console.log(str);
+                    if (str.indexOf("1") != -1) {
+                        str = '(Khối 1)'
+                    }
+                    else if (str.indexOf("2") != -1) {
+                        str = '(Khối 2)'
+                    }
+                    else if (str.indexOf("3") != -1) {
+                        str = '(Khối 3)'
+                    }
+                    else if (str.indexOf("4") != -1) {
+                        str = '(Khối cơ quan)'
+                    }
+                    this.setTitle({
+                        text: title + str
+                    });
+                },
+                drillup: function (e) {
+                    this.setTitle({
+                        text: title + '(TCT)'
+                    });
+                }
+            },
         },
         title: {
-            text: title+'(TCT)',
+            text: title + '(TCT)',
             useHTML: true
         },
         subtitle: {
@@ -248,7 +248,7 @@ function renderChart4(myObj, chart, types, title) {
                 let hieuso = this.points[1].y - this.points[0].y
                 let html = `<b>${this.points[0].key}</b><br>So với tháng trước: `
                 if (hieuso <= 0) {
-                    html += `<i class="fas fa-arrow-down" style="color: #51cf66;"></i>` + hieuso * -1 +'%';
+                    html += `<i class="fas fa-arrow-down" style="color: #51cf66;"></i>` + hieuso * -1 + '%';
                 }
                 else html += `<i class="fas fa-arrow-up" style="color: #ff6b6b;"></i>` + hieuso + '%';
 
@@ -280,3 +280,184 @@ function renderChart4(myObj, chart, types, title) {
     });
 }
 
+function renderChart5(myObj, department, chart, title) {
+    Highcharts.chart({
+        chart: {
+            renderTo: chart,
+            type: 'column',
+            zoomType: 'y',
+            style: {
+                fontFamily: 'Arial'
+            },
+            events: {
+                drilldown: function (e) {
+                    //console.log(e)
+                    let str = e.seriesOptions.id;
+                    //console.log(str);
+                    if (str.indexOf("1") != -1) {
+                        str = '(Khối 1)'
+                    }
+                    else if (str.indexOf("2") != -1) {
+                        str = '(Khối 2)'
+                    }
+                    else if (str.indexOf("3") != -1) {
+                        str = '(Khối 3)'
+                    }
+                    else if (str.indexOf("4") != -1) {
+                        str = '(Khối cơ quan)'
+                    }
+                    this.setTitle({
+                        text: title + str
+                    });
+                },
+                drillup: function (e) {
+                    this.setTitle({
+                        text: title + '(TCT)'
+                    });
+                }
+            },
+        },
+        title: {
+            text: title + '(TCT)',
+            useHTML: true
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            type: 'category',
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: ''
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                //  console.log(this)
+                let hieuso = this.points[1].y - this.points[0].y
+                let html = `<b>${this.points[0].key}</b><br>So với tháng trước: `
+                if (hieuso <= 0) {
+                    html += `<i class="fas fa-arrow-down"></i>` + hieuso * -1;
+                }
+                else html += `<i class="fas fa-arrow-up"></i>` + hieuso;
+
+                return html;
+            },
+            shared: true,
+            useHTML: true
+        },
+        legend: {
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                },
+            },
+        },
+        series: dataSeriesChart5(myObj),
+        drilldown: {
+            series: dataDrillDownChart5(myObj, department)
+        },
+        credits: false
+    });
+}
+function renderChart6(myObj, department, chart, title) {
+    Highcharts.chart({
+        chart: {
+            renderTo: chart,
+            type: 'column',
+            zoomType: 'y',
+            style: {
+                fontFamily: 'Arial'
+            },
+            events: {
+                drilldown: function (e) {
+                    //console.log(e)
+                    let str = e.seriesOptions.id;
+                    //console.log(str);
+                    if (str.indexOf("1") != -1) {
+                        str = '(Khối 1)'
+                    }
+                    else if (str.indexOf("2") != -1) {
+                        str = '(Khối 2)'
+                    }
+                    else if (str.indexOf("3") != -1) {
+                        str = '(Khối 3)'
+                    }
+                    else if (str.indexOf("4") != -1) {
+                        str = '(Khối cơ quan)'
+                    }
+                    this.setTitle({
+                        text: title + str
+                    });
+                },
+                drillup: function (e) {
+                    this.setTitle({
+                        text: title + '(TCT)'
+                    });
+                }
+            },
+        },
+        title: {
+            text: title + '(TCT)',
+            useHTML: true
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            type: 'category',
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: ''
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                //  console.log(this)
+                let hieuso = this.points[1].y - this.points[0].y
+                let html = `<b>${this.points[0].key}</b><br>So với tháng trước: `
+                if (hieuso <= 0) {
+                    html += `<i class="fas fa-arrow-down" style="color: #51cf66;"></i>` + hieuso * -1 + '%';
+                }
+                else html += `<i class="fas fa-arrow-up" style="color: #ff6b6b;"></i>` + hieuso + '%';
+
+                return html;
+            },
+            shared: true,
+            useHTML: true
+        },
+        legend: {
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: "{point.y:.0f}%"
+                },
+            },
+        },
+        series: dataSeriesChart6(myObj),
+        drilldown: {
+            series: dataDrillDownChart6(myObj, department)
+        },
+        credits: false
+    });
+}
