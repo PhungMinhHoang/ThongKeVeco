@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 require_once('../database.php');
 
-$query = "SELECT tuy_chon.ten, TCT,K1,K2,K3,thoigian FROM `chi_so_pi` INNER JOIN tuy_chon ON tuy_chon_id = tuy_chon.id";
+$query = "SELECT tuy_chon.ten, TCT,K1,K2,K3,muc_tieu,thoigian FROM `chi_so_pi` INNER JOIN tuy_chon ON tuy_chon_id = tuy_chon.id";
 
 $statement = $db->prepare($query);
 $statement->execute();

@@ -9,11 +9,11 @@ function getData(data, department) {
 
 function dataSeries(myObj, pi) {
     let data = myObj[pi];
-    return [{
+    let rs = [{
         name: 'TCT',
         data: getData(data, 'TCT')
     }, {
-        name: 'Khối 1,',
+        name: 'Khối 1',
         data: getData(data, 'K1')
     }, {
         name: 'Khối 2',
@@ -22,6 +22,14 @@ function dataSeries(myObj, pi) {
         name: 'Khối 3',
         data: getData(data, 'K3')
     }]
+    if (pi != 'Pi5') {
+        rs.push({
+            name: 'Mục tiêu',
+            data: getData(data, 'muc_tieu'),
+            color: '#000',
+        });
+    }
+    return rs;
 
 }
 function renderChart(myObj, chart, pi, title) {

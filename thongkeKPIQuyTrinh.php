@@ -84,6 +84,7 @@
 
         $.get("./json/jsonPi.php", function(res) {
             let myObj = JSON.parse(res);
+            console.log(myObj)
             renderChart(myObj, 'chart_2', 'Pi2', '<a href="quytrinh.php"><div>PI<sub>2</sub>: Tỷ lệ ĐT,DA được đánh giá (TCT)</div></a>');
             renderChart(myObj, 'chart_3', 'Pi3', '<a href="quytrinh.php"><div>PI<sub>3</sub>: Tỷ lệ ĐT,DA được audit (TCT)</div></a>');
             renderChart(myObj, 'chart_4', 'Pi4', '<a href="quytrinh.php"><div>PI<sub>4</sub>: Tỷ lệ ĐT,DA có mức tuân thủ thấp (TCT)</div></a>');
