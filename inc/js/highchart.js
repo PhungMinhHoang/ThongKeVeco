@@ -98,7 +98,8 @@ function renderChart(myObj, chart, types, title, subtitle) {
 
 let tuy_chon_4 = ['viec_duoc_giao_thang_truoc', 'viec_duoc_giao_thang'],
     tuy_chon_5 = ['viec_hoan_thanh_khong_dung_han_thang_truoc', 'viec_hoan_thanh_khong_dung_han_thang']
-function renderChart3(myObj, chart, types, title) {
+
+function renderChart3(myObj, department, chart, title) {
     Highcharts.chart({
         chart: {
             renderTo: chart,
@@ -109,28 +110,18 @@ function renderChart3(myObj, chart, types, title) {
             },
             events: {
                 drilldown: function (e) {
-                    //console.log(e)
-                    let str = e.seriesOptions.id;
-                    //console.log(str);
-                    if (str.indexOf("1") != -1) {
-                        str = '(Khối 1)'
-                    }
-                    else if (str.indexOf("2") != -1) {
-                        str = '(Khối 2)'
-                    }
-                    else if (str.indexOf("3") != -1) {
-                        str = '(Khối 3)'
-                    }
-                    else if (str.indexOf("4") != -1) {
-                        str = '(Khối cơ quan)'
-                    }
+                    let str = e.seriesOptions.id.split('-')[1];
                     this.setTitle({
-                        text: title + str
+                        text: title + '(' + str + ')'
                     });
                 },
                 drillup: function (e) {
+                    let str = 'TCT';
+                    if (e.seriesOptions.hasOwnProperty('id')) {
+                        str = e.seriesOptions.id.split('-')[1];
+                    }
                     this.setTitle({
-                        text: title + '(TCT)'
+                        text: title + '(' + str + ')'
                     });
                 }
             },
@@ -181,14 +172,14 @@ function renderChart3(myObj, chart, types, title) {
                 },
             },
         },
-        series: dataSeries(myObj, types, ["#0275d8", "#5cb85c"]),
+        series: dataSeriesChart3(myObj),
         drilldown: {
-            series: dataDrilldown(myObj, types)
+            series: dataDrillDownChart3(myObj, department)
         },
         credits: false
     });
 }
-function renderChart4(myObj, chart, types, title) {
+function renderChart4(myObj, department, chart, title) {
     Highcharts.chart({
         chart: {
             renderTo: chart,
@@ -199,28 +190,18 @@ function renderChart4(myObj, chart, types, title) {
             },
             events: {
                 drilldown: function (e) {
-                    //console.log(e)
-                    let str = e.seriesOptions.id;
-                    //console.log(str);
-                    if (str.indexOf("1") != -1) {
-                        str = '(Khối 1)'
-                    }
-                    else if (str.indexOf("2") != -1) {
-                        str = '(Khối 2)'
-                    }
-                    else if (str.indexOf("3") != -1) {
-                        str = '(Khối 3)'
-                    }
-                    else if (str.indexOf("4") != -1) {
-                        str = '(Khối cơ quan)'
-                    }
+                    let str = e.seriesOptions.id.split('-')[1];
                     this.setTitle({
-                        text: title + str
+                        text: title + '(' + str + ')'
                     });
                 },
                 drillup: function (e) {
+                    let str = 'TCT';
+                    if (e.seriesOptions.hasOwnProperty('id')) {
+                        str = e.seriesOptions.id.split('-')[1];
+                    }
                     this.setTitle({
-                        text: title + '(TCT)'
+                        text: title + '(' + str + ')'
                     });
                 }
             },
@@ -245,7 +226,7 @@ function renderChart4(myObj, chart, types, title) {
         tooltip: {
             formatter: function () {
                 //  console.log(this)
-                let hieuso = this.points[1].y - this.points[0].y
+                let hieuso = Math.round(this.points[1].y - this.points[0].y);
                 let html = `<b>${this.points[0].key}</b><br>So với tháng trước: `
                 if (hieuso <= 0) {
                     html += `<i class="fas fa-arrow-down" style="color: #51cf66;"></i>` + hieuso * -1 + '%';
@@ -272,14 +253,13 @@ function renderChart4(myObj, chart, types, title) {
                 },
             },
         },
-        series: dataSeries(myObj, types, ['#FFA500', '#a94442']),
+        series: dataSeriesChart4(myObj),
         drilldown: {
-            series: dataDrilldown(myObj, types)
+            series: dataDrillDownChart4(myObj, department)
         },
         credits: false
     });
 }
-
 function renderChart5(myObj, department, chart, title) {
     Highcharts.chart({
         chart: {
@@ -291,28 +271,18 @@ function renderChart5(myObj, department, chart, title) {
             },
             events: {
                 drilldown: function (e) {
-                    //console.log(e)
-                    let str = e.seriesOptions.id;
-                    //console.log(str);
-                    if (str.indexOf("1") != -1) {
-                        str = '(Khối 1)'
-                    }
-                    else if (str.indexOf("2") != -1) {
-                        str = '(Khối 2)'
-                    }
-                    else if (str.indexOf("3") != -1) {
-                        str = '(Khối 3)'
-                    }
-                    else if (str.indexOf("4") != -1) {
-                        str = '(Khối cơ quan)'
-                    }
+                    let str = e.seriesOptions.id.split('-')[1];
                     this.setTitle({
-                        text: title + str
+                        text: title + '(' + str + ')'
                     });
                 },
                 drillup: function (e) {
+                    let str = 'TCT';
+                    if (e.seriesOptions.hasOwnProperty('id')) {
+                        str = e.seriesOptions.id.split('-')[1];
+                    }
                     this.setTitle({
-                        text: title + '(TCT)'
+                        text: title + '(' + str + ')'
                     });
                 }
             },
@@ -324,10 +294,14 @@ function renderChart5(myObj, department, chart, title) {
         subtitle: {
             text: ''
         },
-        xAxis: {
+        xAxis: [{
             type: 'category',
             crosshair: true
         },
+        //xAxis for line
+        {
+            visible: false
+        }],
         yAxis: {
             min: 0,
             title: {
@@ -336,15 +310,17 @@ function renderChart5(myObj, department, chart, title) {
         },
         tooltip: {
             formatter: function () {
-                //  console.log(this)
-                let hieuso = this.points[1].y - this.points[0].y
-                let html = `<b>${this.points[0].key}</b><br>So với tháng trước: `
-                if (hieuso <= 0) {
-                    html += `<i class="fas fa-arrow-down"></i>` + hieuso * -1;
-                }
-                else html += `<i class="fas fa-arrow-up"></i>` + hieuso;
+                let points = this.points;
+                if (points[points.length - 1] != undefined && points[points.length - 2] != undefined) {
+                    let hieuso = points[points.length - 1].y - points[points.length - 2].y
+                    let html = `<b>${points[1].key}</b><br>So với tháng trước: `
+                    if (hieuso <= 0) {
+                        html += `<i class="fas fa-arrow-down" style="color: #51cf66;"></i>` + hieuso * -1 + '%';
+                    }
+                    else html += `<i class="fas fa-arrow-up" style="color: #ff6b6b;"></i>` + hieuso + '%';
 
-                return html;
+                    return html;
+                }
             },
             shared: true,
             useHTML: true
@@ -355,11 +331,23 @@ function renderChart5(myObj, department, chart, title) {
             shadow: false
         },
         plotOptions: {
+            line: {
+                color: "#dc3545",
+                tooltip: {
+                    headerFormat: "",
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y}%</b></td></tr>',
+                    footerFormat: "</table>",
+                    shared: false,
+                    useHTML: true
+                }
+            },
             column: {
                 pointPadding: 0.2,
                 borderWidth: 0,
                 dataLabels: {
                     enabled: true,
+                    format: "{point.y:.0f}%"
                 },
             },
         },
@@ -381,28 +369,18 @@ function renderChart6(myObj, department, chart, title) {
             },
             events: {
                 drilldown: function (e) {
-                    //console.log(e)
-                    let str = e.seriesOptions.id;
-                    //console.log(str);
-                    if (str.indexOf("1") != -1) {
-                        str = '(Khối 1)'
-                    }
-                    else if (str.indexOf("2") != -1) {
-                        str = '(Khối 2)'
-                    }
-                    else if (str.indexOf("3") != -1) {
-                        str = '(Khối 3)'
-                    }
-                    else if (str.indexOf("4") != -1) {
-                        str = '(Khối cơ quan)'
-                    }
+                    let str = e.seriesOptions.id.split('-')[1];
                     this.setTitle({
-                        text: title + str
+                        text: title + '(' + str + ')'
                     });
                 },
                 drillup: function (e) {
+                    let str = 'TCT';
+                    if (e.seriesOptions.hasOwnProperty('id')) {
+                        str = e.seriesOptions.id.split('-')[1];
+                    }
                     this.setTitle({
-                        text: title + '(TCT)'
+                        text: title + '(' + str + ')'
                     });
                 }
             },
@@ -414,10 +392,14 @@ function renderChart6(myObj, department, chart, title) {
         subtitle: {
             text: ''
         },
-        xAxis: {
+        xAxis: [{
             type: 'category',
             crosshair: true
         },
+        //xAxis for line
+        {
+            visible: false
+        }],
         yAxis: {
             min: 0,
             title: {
@@ -426,15 +408,17 @@ function renderChart6(myObj, department, chart, title) {
         },
         tooltip: {
             formatter: function () {
-                //  console.log(this)
-                let hieuso = this.points[1].y - this.points[0].y
-                let html = `<b>${this.points[0].key}</b><br>So với tháng trước: `
-                if (hieuso <= 0) {
-                    html += `<i class="fas fa-arrow-down" style="color: #51cf66;"></i>` + hieuso * -1 + '%';
-                }
-                else html += `<i class="fas fa-arrow-up" style="color: #ff6b6b;"></i>` + hieuso + '%';
+                let points = this.points;
+                if (points[points.length - 1] != undefined && points[points.length - 2] != undefined) {
+                    let hieuso = points[points.length - 1].y - points[points.length - 2].y
+                    let html = `<b>${points[1].key}</b><br>So với tháng trước: `
+                    if (hieuso <= 0) {
+                        html += `<i class="fas fa-arrow-down" style="color: #ff6b6b;"></i>` + Math.round(hieuso) * -1 + '%';
+                    }
+                    else html += `<i class="fas fa-arrow-up" style="color:  #51cf66;"></i>` + Math.round(hieuso) + '%';
 
-                return html;
+                    return html;
+                }
             },
             shared: true,
             useHTML: true
@@ -445,6 +429,17 @@ function renderChart6(myObj, department, chart, title) {
             shadow: false
         },
         plotOptions: {
+            line: {
+                color: "#28a745",
+                tooltip: {
+                    headerFormat: "",
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y}%</b></td></tr>',
+                    footerFormat: "</table>",
+                    shared: false,
+                    useHTML: true
+                }
+            },
             column: {
                 pointPadding: 0.2,
                 borderWidth: 0,
@@ -457,6 +452,300 @@ function renderChart6(myObj, department, chart, title) {
         series: dataSeriesChart6(myObj),
         drilldown: {
             series: dataDrillDownChart6(myObj, department)
+        },
+        credits: false
+    });
+}
+function renderChart7(myObj, department, chart, title) {
+    Highcharts.chart({
+        chart: {
+            renderTo: chart,
+            type: 'column',
+            zoomType: 'y',
+            style: {
+                fontFamily: 'Arial'
+            },
+            events: {
+                drilldown: function (e) {
+                    let str = e.seriesOptions.id.split('-')[1];
+                    this.setTitle({
+                        text: title + '(' + str + ')'
+                    });
+                },
+                drillup: function (e) {
+                    let str = 'TCT';
+                    if (e.seriesOptions.hasOwnProperty('id')) {
+                        str = e.seriesOptions.id.split('-')[1];
+                    }
+                    this.setTitle({
+                        text: title + '(' + str + ')'
+                    });
+                }
+            },
+        },
+        title: {
+            text: title + '(TCT)',
+            useHTML: true
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: [{
+            type: 'category',
+            crosshair: true
+        },
+        //xAxis for line
+        {
+            visible: false
+        }],
+        yAxis: {
+            min: 0,
+            title: {
+                text: ''
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                let points = this.points;
+                if (points[points.length - 1] != undefined && points[points.length - 2] != undefined) {
+                    let hieuso = points[points.length - 1].y - points[points.length - 2].y
+                    let html = `<b>${points[1].key}</b><br>So với tháng trước: `
+                    if (hieuso <= 0) {
+                        html += `<i class="fas fa-arrow-down" style="color: #ff6b6b;"></i>` + Math.round(hieuso) * -1 + ' việc';
+                    }
+                    else html += `<i class="fas fa-arrow-up" style="color:  #51cf66;"></i>` + Math.round(hieuso) + ' việc';
+
+                    return html;
+                }
+            },
+            shared: true,
+            useHTML: true
+        },
+        legend: {
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        plotOptions: {
+            line: {
+                color: "#28a745",
+                tooltip: {
+                    headerFormat: "",
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y} việc</b></td></tr>',
+                    footerFormat: "</table>",
+                    shared: false,
+                    useHTML: true
+                }
+            },
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: "{point.y:.0f} việc"
+                },
+            },
+        },
+        series: dataSeriesChart7(myObj),
+        drilldown: {
+            series: dataDrillDownChart7(myObj, department)
+        },
+        credits: false
+    });
+}
+function renderChart8(myObj, department, chart, title) {
+    Highcharts.chart({
+        chart: {
+            renderTo: chart,
+            type: 'column',
+            zoomType: 'y',
+            style: {
+                fontFamily: 'Arial'
+            },
+            events: {
+                drilldown: function (e) {
+                    let str = e.seriesOptions.id.split('-')[1];
+                    this.setTitle({
+                        text: title + '(' + str + ')'
+                    });
+                },
+                drillup: function (e) {
+                    let str = 'TCT';
+                    if (e.seriesOptions.hasOwnProperty('id')) {
+                        str = e.seriesOptions.id.split('-')[1];
+                    }
+                    this.setTitle({
+                        text: title + '(' + str + ')'
+                    });
+                }
+            },
+        },
+        title: {
+            text: title + '(TCT)',
+            useHTML: true
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: [{
+            type: 'category',
+            crosshair: true
+        },
+        //xAxis for line
+        {
+            visible: false
+        }],
+        yAxis: {
+            min: 0,
+            title: {
+                text: ''
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                let points = this.points;
+                if (points[points.length - 1] != undefined && points[points.length - 2] != undefined) {
+                    let hieuso = points[points.length - 1].y - points[points.length - 2].y
+                    let html = `<b>${points[1].key}</b><br>So với tháng trước: `
+                    if (hieuso <= 0) {
+                        html += `<i class="fas fa-arrow-down" style="color: #ff6b6b;"></i>` + Math.round(hieuso) * -1 + '%';
+                    }
+                    else html += `<i class="fas fa-arrow-up" style="color:  #51cf66;"></i>` + Math.round(hieuso) + '%';
+
+                    return html;
+                }
+            },
+            shared: true,
+            useHTML: true
+        },
+        legend: {
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        plotOptions: {
+            line: {
+                color: "#28a745",
+                tooltip: {
+                    headerFormat: "",
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y}%</b></td></tr>',
+                    footerFormat: "</table>",
+                    shared: false,
+                    useHTML: true
+                }
+            },
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: "{point.y:.0f}%"
+                },
+            },
+        },
+        series: dataSeriesChart8(myObj),
+        drilldown: {
+            series: dataDrillDownChart8(myObj, department)
+        },
+        credits: false
+    });
+}
+function renderChart9(myObj, department, chart, title) {
+    Highcharts.chart({
+        chart: {
+            renderTo: chart,
+            type: 'column',
+            zoomType: 'y',
+            style: {
+                fontFamily: 'Arial'
+            },
+            events: {
+                drilldown: function (e) {
+                    let str = e.seriesOptions.id.split('-')[1];
+                    this.setTitle({
+                        text: title + '(' + str + ')'
+                    });
+                },
+                drillup: function (e) {
+                    let str = 'TCT';
+                    if (e.seriesOptions.hasOwnProperty('id')) {
+                        str = e.seriesOptions.id.split('-')[1];
+                    }
+                    this.setTitle({
+                        text: title + '(' + str + ')'
+                    });
+                }
+            },
+        },
+        title: {
+            text: title + '(TCT)',
+            useHTML: true
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: [{
+            type: 'category',
+            crosshair: true
+        },
+        //xAxis for line
+        {
+            visible: false
+        }],
+        yAxis: {
+            min: 0,
+            title: {
+                text: ''
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                let points = this.points;
+                if (points[points.length - 1] != undefined && points[points.length - 2] != undefined) {
+                    let hieuso = points[points.length - 1].y - points[points.length - 2].y
+                    let html = `<b>${points[1].key}</b><br>So với tháng trước: `
+                    if (hieuso <= 0) {
+                        html += `<i class="fas fa-arrow-down" style="color: #51cf66;"></i>` + hieuso * -1 + '%';
+                    }
+                    else html += `<i class="fas fa-arrow-up" style="color: #ff6b6b;"></i>` + hieuso + '%';
+
+                    return html;
+                }
+            },
+            shared: true,
+            useHTML: true
+        },
+        legend: {
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        plotOptions: {
+            line: {
+                color: "#dc3545",
+                tooltip: {
+                    headerFormat: "",
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y}%</b></td></tr>',
+                    footerFormat: "</table>",
+                    shared: false,
+                    useHTML: true
+                }
+            },
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: "{point.y:.0f}%"
+                },
+            },
+        },
+        series: dataSeriesChart9(myObj),
+        drilldown: {
+            series: dataDrillDownChart9(myObj, department)
         },
         credits: false
     });

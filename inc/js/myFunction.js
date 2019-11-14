@@ -5,7 +5,14 @@ Date.prototype.getWeek = function () {
 var d = new Date();
 var m = d.getMonth();
 var w = d.getWeek() - 1;
-console.log(m);
+
+function groupBy(array, key) {
+    let group = array.reduce((r, a) => {
+        r[a[key]] = [...r[a[key]] || [], a];
+        return r;
+    }, {});
+    return group;
+}
 
 function getChiSoKhoi(myObj, khoi, ten_tuy_chon, thoi_gian) {
     return myObj[khoi].filter((donvi) => {
@@ -435,8 +442,8 @@ function dataDrilldownStack(myObj, types) {
     return data;
 }
 
-//Chart5//
-function dataDepartmentChart5(myObj, parent, tuy_chon, thang) {
+//Chart3//
+function dataDepartmentChart3(myObj, parent, tuy_chon, thang) {
     let data = myObj.filter(e => {
         return e.parent == parent && e.tuy_chon == tuy_chon && e.thang == thang;
     })
@@ -459,34 +466,33 @@ function dataDepartmentChart5(myObj, parent, tuy_chon, thang) {
     });
     return rs;
 }
-
-function dataSeriesChart5(myObj) {
+function dataSeriesChart3(myObj) {
     return [
         {
             name: `Tổng số việc cần hoàn thành trong tháng ${m - 1}`,
-            data: dataDepartmentChart5(myObj, 'Tổng Công Ty', 'tong-so-viec-can-hoan-thanh-trong-thang', m - 1),
+            data: dataDepartmentChart3(myObj, 'Tổng Công Ty', 'tong-so-viec-can-hoan-thanh-trong-thang', m - 1),
             color: '#0275d8'
         },
         {
             name: `Tổng số việc cần hoàn thành trong tháng ${m}`,
-            data: dataDepartmentChart5(myObj, 'Tổng Công Ty', 'tong-so-viec-can-hoan-thanh-trong-thang', m),
+            data: dataDepartmentChart3(myObj, 'Tổng Công Ty', 'tong-so-viec-can-hoan-thanh-trong-thang', m),
             color: '#5cb85c'
         }
     ]
 }
-function dataDrillDownChart5(myObj, department) {
+function dataDrillDownChart3(myObj, department) {
     let rs = [];
     department.forEach(dv => {
         if (dv.parent != 'Khối cơ quan' && dv.level < 4) {
             rs.push({
                 name: `Tổng số việc cần hoàn thành trong tháng ${m - 1}`,
                 id: `${dv.parent}-${dv.ten_don_vi}-${m - 1}`,
-                data: dataDepartmentChart5(myObj, dv.ten_don_vi, 'tong-so-viec-can-hoan-thanh-trong-thang', m - 1)
+                data: dataDepartmentChart3(myObj, dv.ten_don_vi, 'tong-so-viec-can-hoan-thanh-trong-thang', m - 1)
             })
             rs.push({
                 name: `Tổng số việc cần hoàn thành trong tháng ${m}`,
                 id: `${dv.parent}-${dv.ten_don_vi}-${m}`,
-                data: dataDepartmentChart5(myObj, dv.ten_don_vi, 'tong-so-viec-can-hoan-thanh-trong-thang', m)
+                data: dataDepartmentChart3(myObj, dv.ten_don_vi, 'tong-so-viec-can-hoan-thanh-trong-thang', m)
             })
         }
 
@@ -494,8 +500,8 @@ function dataDrillDownChart5(myObj, department) {
     return rs;
 }
 
-//Chart6//
-function dataDepartmentChart6(myObj, parent, tuy_chon, thang) {
+//Chart4//
+function dataDepartmentChart4(myObj, parent, tuy_chon, thang) {
     let data = myObj.filter(e => {
         return e.parent == parent && e.tuy_chon == tuy_chon && e.thang == thang;
     })
@@ -504,7 +510,7 @@ function dataDepartmentChart6(myObj, parent, tuy_chon, thang) {
         let sum = myObj.find(element => {
             return element.ten_don_vi == e.ten_don_vi && element.parent == e.parent && element.thang == e.thang && element.tuy_chon == 'tong-so-viec-can-hoan-thanh-trong-thang'
         }).data;
-        
+
         if (e.parent != 'Khối cơ quan' && e.level < 4) {
             rs.push({
                 name: e.ten_don_vi,
@@ -522,19 +528,158 @@ function dataDepartmentChart6(myObj, parent, tuy_chon, thang) {
     });
     return rs;
 }
-
-function dataSeriesChart6(myObj) {
+function dataSeriesChart4(myObj) {
     return [
         {
             name: `Tổng số việc quá hạn chưa hoàn thành tháng ${m - 1}`,
-            data: dataDepartmentChart6(myObj, 'Tổng Công Ty', 'viec-cham-chua-hoan-thanh', m - 1),
+            data: dataDepartmentChart4(myObj, 'Tổng Công Ty', 'viec-cham-chua-hoan-thanh', m - 1),
             color: '#FFA500'
         },
         {
             name: `Tổng số việc quá hạn chưa hoàn thành tháng ${m}`,
-            data: dataDepartmentChart6(myObj, 'Tổng Công Ty', 'viec-cham-chua-hoan-thanh', m),
+            data: dataDepartmentChart4(myObj, 'Tổng Công Ty', 'viec-cham-chua-hoan-thanh', m),
             color: '#a94442'
         }
+    ]
+}
+function dataDrillDownChart4(myObj, department) {
+    let rs = [];
+    department.forEach(dv => {
+        if (dv.parent != 'Khối cơ quan' && dv.level < 4) {
+            rs.push({
+                name: `Tổng số việc quá hạn chưa hoàn thành tháng ${m - 1}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m - 1}`,
+                data: dataDepartmentChart4(myObj, dv.ten_don_vi, 'viec-cham-chua-hoan-thanh', m - 1)
+            })
+            rs.push({
+                name: `Tổng số việc quá hạn chưa hoàn thành tháng ${m}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m}`,
+                data: dataDepartmentChart4(myObj, dv.ten_don_vi, 'viec-cham-chua-hoan-thanh', m)
+            })
+        }
+
+    })
+    return rs;
+}
+
+function findChiSoByTuyChon(array, tuy_chon) {
+    let rs = array.find(e => {
+        return e.tuy_chon == tuy_chon;
+    })
+    return rs != undefined ? parseInt(rs.data) : 0;
+}
+//Chart5// (viec-hoan-thanh-khong-dung-han-co-due-date-trong-thang + viec-cham-chua-hoan-thanh-co-due-date-trong-thang) / viec-co-due-date-trong-thang
+function dataDepartmentChart5(myObj, parent, thang) {
+    let data = myObj.filter(e => {
+        return e.parent == parent && e.thang == thang && (e.tuy_chon == 'viec-hoan-thanh-khong-dung-han-co-due-date-trong-thang' || e.tuy_chon == 'viec-cham-chua-hoan-thanh-co-due-date-trong-thang' || e.tuy_chon == 'viec-co-due-date-trong-thang')
+    })
+    data = groupBy(data, 'ten_don_vi');
+    let rs = [];
+    Object.values(data).forEach(e => {
+        let ty_le = Math.round((findChiSoByTuyChon(e, 'viec-hoan-thanh-khong-dung-han-co-due-date-trong-thang') + findChiSoByTuyChon(e, 'viec-cham-chua-hoan-thanh-co-due-date-trong-thang')) / findChiSoByTuyChon(e, 'viec-co-due-date-trong-thang') * 100)
+        if (e[0].parent != 'Khối cơ quan' && e[0].level < 4) {
+            rs.push({
+                name: e[0].ten_don_vi,
+                y: ty_le,
+                drilldown: e[0].parent + '-' + e[0].ten_don_vi + '-' + thang,
+            })
+        }
+        else {
+            rs.push({
+                name: e[0].ten_don_vi,
+                y: ty_le,
+            })
+        }
+    })
+    return rs;
+}
+function dataSeriesChart5(myObj) {
+    return [
+        {
+            type: "line",
+            name: "Mốc cảnh báo ",
+            data: [20, 20],
+            xAxis: 1,
+            yaxis: 1
+        },
+        {
+            name: `Tỷ lệ việc hoàn thành không đúng hạn tháng ${m - 1}`,
+            data: dataDepartmentChart5(myObj, 'Tổng Công Ty', m - 1),
+            color: '#FFA500'
+        },
+        {
+            name: `Tỷ lệ việc hoàn thành không đúng hạn tháng ${m}`,
+            data: dataDepartmentChart5(myObj, 'Tổng Công Ty', m),
+            color: '#a94442'
+        },
+
+    ]
+}
+function dataDrillDownChart5(myObj, department) {
+    let rs = [];
+    department.forEach(dv => {
+        if (dv.parent != 'Khối cơ quan' && dv.level < 4) {
+            rs.push({
+                name: `Tỷ lệ việc hoàn thành không đúng hạn tháng ${m - 1}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m - 1}`,
+                data: dataDepartmentChart5(myObj, dv.ten_don_vi, m - 1)
+            })
+            rs.push({
+                name: `Tỷ lệ việc hoàn thành không đúng hạn tháng ${m}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m}`,
+                data: dataDepartmentChart5(myObj, dv.ten_don_vi, m)
+            })
+        }
+
+    })
+    return rs;
+}
+
+//Chart6// viec-con-lai-cua-cac-thang-truoc-duoc-hoan-thanh-trong-thang / viec-con-lai-cua-cac-thang-truoc
+function dataDepartmentChart6(myObj, parent, thang) {
+    let data = myObj.filter(e => {
+        return e.parent == parent && e.thang == thang && (e.tuy_chon == 'viec-con-lai-cua-cac-thang-truoc-duoc-hoan-thanh-trong-thang' || e.tuy_chon == 'viec-con-lai-cua-cac-thang-truoc')
+    })
+    data = groupBy(data, 'ten_don_vi');
+    let rs = [];
+    Object.values(data).forEach(e => {
+        let ty_le = Math.round(findChiSoByTuyChon(e, 'viec-con-lai-cua-cac-thang-truoc-duoc-hoan-thanh-trong-thang') / findChiSoByTuyChon(e, 'viec-con-lai-cua-cac-thang-truoc') * 100)
+        if (e[0].parent != 'Khối cơ quan' && e[0].level < 4) {
+            rs.push({
+                name: e[0].ten_don_vi,
+                y: ty_le,
+                drilldown: e[0].parent + '-' + e[0].ten_don_vi + '-' + thang,
+            })
+        }
+        else {
+            rs.push({
+                name: e[0].ten_don_vi,
+                y: ty_le,
+            })
+        }
+    })
+    return rs;
+}
+function dataSeriesChart6(myObj) {
+    return [
+        {
+            type: "line",
+            name: "Mục tiêu",
+            data: [50, 50],
+            xAxis: 1,
+            yaxis: 1
+        },
+        {
+            name: `Tỷ lệ giải quyết việc tồn đọng tháng ${m - 1}`,
+            data: dataDepartmentChart6(myObj, 'Tổng Công Ty', m - 1),
+            color: '#FFA500'
+        },
+        {
+            name: `Tỷ lệ giải quyết việc tồn đọng tháng ${m}`,
+            data: dataDepartmentChart6(myObj, 'Tổng Công Ty', m),
+            color: '#a94442'
+        },
+
     ]
 }
 function dataDrillDownChart6(myObj, department) {
@@ -542,17 +687,220 @@ function dataDrillDownChart6(myObj, department) {
     department.forEach(dv => {
         if (dv.parent != 'Khối cơ quan' && dv.level < 4) {
             rs.push({
-                name: `Tổng số việc quá hạn chưa hoàn thành tháng ${m - 1}`,
+                name: `Tỷ lệ giải quyết việc tồn đọng tháng ${m - 1}`,
                 id: `${dv.parent}-${dv.ten_don_vi}-${m - 1}`,
-                data: dataDepartmentChart6(myObj, dv.ten_don_vi, 'viec-cham-chua-hoan-thanh', m - 1)
+                data: dataDepartmentChart6(myObj, dv.ten_don_vi, m - 1)
             })
             rs.push({
-                name: `Tổng số việc quá hạn chưa hoàn thành tháng ${m}`,
+                name: `Tỷ lệ giải quyết việc tồn đọng tháng ${m}`,
                 id: `${dv.parent}-${dv.ten_don_vi}-${m}`,
-                data: dataDepartmentChart6(myObj, dv.ten_don_vi, 'viec-cham-chua-hoan-thanh', m)
+                data: dataDepartmentChart6(myObj, dv.ten_don_vi, m)
             })
         }
 
     })
     return rs;
 }
+
+//Chart7// (viec-hoan-thanh-dung-han-co-due-date-trong-thang + viec-hoan-thanh-khong-dung-han-co-due-date-trong-thang + viec-con-lai-cua-cac-thang-truoc-duoc-hoan-thanh-trong-thang) / nguoi
+function dataDepartmentChart7(myObj, parent, thang) {
+    let data = myObj.filter(e => {
+        return e.parent == parent && e.thang == thang && (e.tuy_chon == 'viec-hoan-thanh-dung-han-co-due-date-trong-thang' || e.tuy_chon == 'viec-hoan-thanh-khong-dung-han-co-due-date-trong-thang' || e.tuy_chon == 'viec-con-lai-cua-cac-thang-truoc-duoc-hoan-thanh-trong-thang')
+    })
+    data = groupBy(data, 'ten_don_vi');
+    let rs = [];
+    Object.values(data).forEach(e => {
+        let ty_le = Math.round((findChiSoByTuyChon(e, 'viec-hoan-thanh-dung-han-co-due-date-trong-thang') + findChiSoByTuyChon(e, 'viec-hoan-thanh-khong-dung-han-co-due-date-trong-thang') + findChiSoByTuyChon(e, 'viec-con-lai-cua-cac-thang-truoc-duoc-hoan-thanh-trong-thang')) / e[0].count_user)
+        if (e[0].parent != 'Khối cơ quan' && e[0].level < 4) {
+            rs.push({
+                name: e[0].ten_don_vi,
+                y: ty_le,
+                drilldown: e[0].parent + '-' + e[0].ten_don_vi + '-' + thang,
+            })
+        }
+        else {
+            rs.push({
+                name: e[0].ten_don_vi,
+                y: ty_le,
+            })
+        }
+    })
+    return rs;
+}
+function dataSeriesChart7(myObj) {
+    return [
+        {
+            type: "line",
+            name: "Mục tiêu",
+            data: [5, 5],
+            xAxis: 1,
+            yaxis: 1
+        },
+        {
+            name: `Tỷ lệ hoàn thành việc trong tháng/người tháng ${m - 1}`,
+            data: dataDepartmentChart7(myObj, 'Tổng Công Ty', m - 1),
+            color: '#FFA500'
+        },
+        {
+            name: `Tỷ lệ hoàn thành việc trong tháng/người tháng ${m}`,
+            data: dataDepartmentChart7(myObj, 'Tổng Công Ty', m),
+            color: '#a94442'
+        },
+
+    ]
+}
+function dataDrillDownChart7(myObj, department) {
+    let rs = [];
+    department.forEach(dv => {
+        if (dv.parent != 'Khối cơ quan' && dv.level < 4) {
+            rs.push({
+                name: `Tỷ lệ hoàn thành việc trong tháng/người tháng ${m - 1}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m - 1}`,
+                data: dataDepartmentChart7(myObj, dv.ten_don_vi, m - 1)
+            })
+            rs.push({
+                name: `Tỷ lệ hoàn thành việc trong tháng/người tháng ${m}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m}`,
+                data: dataDepartmentChart7(myObj, dv.ten_don_vi, m)
+            })
+        }
+
+    })
+    return rs;
+}
+
+//Chart8// viec-chuyen-sang-dang-thuc-hien-nho-hon-2-ngay / viec-co-due-date-trong-thang
+function dataDepartmentChart8(myObj, parent, thang) {
+    let data = myObj.filter(e => {
+        return e.parent == parent && e.thang == thang && (e.tuy_chon == 'viec-chuyen-sang-dang-thuc-hien-nho-hon-2-ngay' || e.tuy_chon == 'viec-co-due-date-trong-thang')
+    })
+    data = groupBy(data, 'ten_don_vi');
+    let rs = [];
+    Object.values(data).forEach(e => {
+        let ty_le = Math.round(findChiSoByTuyChon(e, 'viec-chuyen-sang-dang-thuc-hien-nho-hon-2-ngay') / findChiSoByTuyChon(e, 'viec-co-due-date-trong-thang') * 100)
+        if (e[0].parent != 'Khối cơ quan' && e[0].level < 4) {
+            rs.push({
+                name: e[0].ten_don_vi,
+                y: ty_le,
+                drilldown: e[0].parent + '-' + e[0].ten_don_vi + '-' + thang,
+            })
+        }
+        else {
+            rs.push({
+                name: e[0].ten_don_vi,
+                y: ty_le,
+            })
+        }
+    })
+    return rs;
+}
+function dataSeriesChart8(myObj) {
+    return [
+        {
+            type: "line",
+            name: "Mục tiêu",
+            data: [80, 80],
+            xAxis: 1,
+            yaxis: 1
+        },
+        {
+            name: `Tỷ lệ chuyển việc thực hiện nhỏ hơn 2 ngày tháng ${m - 1}`,
+            data: dataDepartmentChart8(myObj, 'Tổng Công Ty', m - 1),
+            color: '#FFA500'
+        },
+        {
+            name: `Tỷ lệ chuyển việc thực hiện nhỏ hơn 2 ngày tháng ${m}`,
+            data: dataDepartmentChart8(myObj, 'Tổng Công Ty', m),
+            color: '#a94442'
+        },
+
+    ]
+}
+function dataDrillDownChart8(myObj, department) {
+    let rs = [];
+    department.forEach(dv => {
+        if (dv.parent != 'Khối cơ quan' && dv.level < 4) {
+            rs.push({
+                name: `Tỷ lệ chuyển việc thực hiện nhỏ hơn 2 ngày tháng ${m - 1}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m - 1}`,
+                data: dataDepartmentChart8(myObj, dv.ten_don_vi, m - 1)
+            })
+            rs.push({
+                name: `Tỷ lệ chuyển việc thực hiện nhỏ hơn 2 ngày tháng ${m}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m}`,
+                data: dataDepartmentChart8(myObj, dv.ten_don_vi, m)
+            })
+        }
+
+    })
+    return rs;
+}
+
+//Chart9// viec-cho-duyet-qua-3-ngay / tong_so_viec_cho_duyet_trong_thang
+function dataDepartmentChart9(myObj, parent, thang) {
+    let data = myObj.filter(e => {
+        return e.parent == parent && e.thang == thang && (e.tuy_chon == 'viec-cho-duyet-qua-3-ngay' || e.tuy_chon == 'tong_so_viec_cho_duyet_trong_thang')
+    })
+    data = groupBy(data, 'ten_don_vi');
+    let rs = [];
+    Object.values(data).forEach(e => {
+        let ty_le = Math.round(findChiSoByTuyChon(e, 'viec-cho-duyet-qua-3-ngay') / findChiSoByTuyChon(e, 'tong_so_viec_cho_duyet_trong_thang') * 100)
+        if (e[0].parent != 'Khối cơ quan' && e[0].level < 4) {
+            rs.push({
+                name: e[0].ten_don_vi,
+                y: ty_le,
+                drilldown: e[0].parent + '-' + e[0].ten_don_vi + '-' + thang,
+            })
+        }
+        else {
+            rs.push({
+                name: e[0].ten_don_vi,
+                y: ty_le,
+            })
+        }
+    })
+    return rs;
+}
+function dataSeriesChart9(myObj) {
+    return [
+        {
+            type: "line",
+            name: "Mốc cảnh báo ",
+            data: [20, 20],
+            xAxis: 1,
+            yaxis: 1
+        },
+        {
+            name: `Tỷ lệ việc chờ duyệt quá 3 ngày tháng ${m - 1}`,
+            data: dataDepartmentChart9(myObj, 'Tổng Công Ty', m - 1),
+            color: '#FFA500'
+        },
+        {
+            name: `Tỷ lệ việc chờ duyệt quá 3 ngày tháng ${m}`,
+            data: dataDepartmentChart9(myObj, 'Tổng Công Ty', m),
+            color: '#a94442'
+        },
+
+    ]
+}
+function dataDrillDownChart9(myObj, department) {
+    let rs = [];
+    department.forEach(dv => {
+        if (dv.parent != 'Khối cơ quan' && dv.level < 4) {
+            rs.push({
+                name: `Tỷ lệ việc chờ duyệt quá 3 ngày tháng ${m - 1}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m - 1}`,
+                data: dataDepartmentChart9(myObj, dv.ten_don_vi, m - 1)
+            })
+            rs.push({
+                name: `Tỷ lệ việc chờ duyệt quá 3 ngày tháng ${m}`,
+                id: `${dv.parent}-${dv.ten_don_vi}-${m}`,
+                data: dataDepartmentChart9(myObj, dv.ten_don_vi, m)
+            })
+        }
+
+    })
+    return rs;
+}
+
+

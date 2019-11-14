@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="row">
+        <div class="row">
             <div class="col-xl-6 col-lg-12 ">
                 <div class="content">
                     <div id="chart_3" class="ct-chart"></div>
@@ -45,7 +45,7 @@
                     <div id="chart_4" class="ct-chart"></div>
                 </div>
             </div>
-        </div> -->
+        </div>
         <div class="row">
             <div class="col-xl-6 col-lg-12 ">
                 <div class="content">
@@ -55,6 +55,25 @@
             <div class="col-xl-6 col-lg-12 ">
                 <div class="content">
                     <div id="chart_6" class="ct-chart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 col-lg-12 ">
+                <div class="content">
+                    <div id="chart_7" class="ct-chart"></div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-12 ">
+                <div class="content">
+                    <div id="chart_8" class="ct-chart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 col-lg-12 ">
+                <div class="content">
+                    <div id="chart_9" class="ct-chart"></div>
                 </div>
             </div>
         </div>
@@ -78,8 +97,6 @@
             let myObj = JSON.parse(res);
             renderChart(myObj, 'chart_1', tuy_chon_1, 'Tổng quan công việc trên Veco ');
             renderChart(myObj, 'chart_2', tuy_chon_2, 'Tình hình thực hiện công việc ');
-            renderChart3(myObj, 'chart_3', tuy_chon_4, 'Tổng số công việc cần hoàn thành trong tháng theo dự án trên Veco ');
-            renderChart4(myObj, 'chart_4', tuy_chon_5, 'Thống kê % việc hoàn thành chậm trong tháng theo dự án trên Veco ');
         });
         let department;
         $.get("./json/jsonDepartment.php", function(res) {
@@ -87,9 +104,13 @@
         });
         $.get("./json/jsonVHTReport.php", function(res) {
             let myObj = JSON.parse(res);
-            console.log(department)
-            renderChart5(myObj,department, 'chart_5', 'Tổng số công việc cần hoàn thành trong tháng theo đơn vị ');
-            renderChart6(myObj,department, 'chart_6', 'Thống kê % việc chưa hoàn thành trong tháng theo đơn vị ');
+            renderChart3(myObj,department, 'chart_3', 'Tổng số công việc cần hoàn thành ');
+            renderChart4(myObj,department, 'chart_4', 'Tỷ lệ việc chưa hoàn thành ');
+            renderChart5(myObj,department, 'chart_5', 'Tỷ lệ việc hoàn thành không đúng hạn ');
+            renderChart6(myObj,department, 'chart_6', 'Tỷ lệ giải quyết việc tồn đọng ');
+            renderChart7(myObj,department, 'chart_7', 'Tỷ lệ hoàn thành việc trong tháng/người ');
+            renderChart8(myObj,department, 'chart_8', 'Tỷ lệ chuyển việc thực hiện nhỏ hơn 2 ngày ');
+            renderChart9(myObj,department, 'chart_9', 'Tỷ lệ việc chờ duyệt quá 3 ngày ');
         });
     </script>
 
